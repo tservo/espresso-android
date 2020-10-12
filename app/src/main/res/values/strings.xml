@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Espresso</string>
+    <string name="create_restaurant">Create Restaurant</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="loading">Loading...</string>
+    <string name="restaurant_details">Details</string>
+
+</resources>
