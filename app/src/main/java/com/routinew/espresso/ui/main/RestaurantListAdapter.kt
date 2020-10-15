@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.routinew.espresso.databinding.RestaurantBinding
 import com.routinew.espresso.objects.Restaurant
 
-class RestaurantListAdapter(private val restaurants: Array<Restaurant>) :
+class RestaurantListAdapter(private var restaurants: List<Restaurant>) :
 RecyclerView.Adapter<RestaurantListAdapter.VH>() {
     class VH(val restaurantBinding: RestaurantBinding) : RecyclerView.ViewHolder(restaurantBinding.root)
 
@@ -62,7 +62,7 @@ RecyclerView.Adapter<RestaurantListAdapter.VH>() {
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val restaurant = restaurants[position]
+        val restaurant = restaurants.get(position)
         holder.restaurantBinding.apply {
             restaurantTitle.setText(restaurant.name)
             restaurantStreetAddress.setText("${restaurant.street} ${restaurant.suite}")
@@ -76,6 +76,11 @@ RecyclerView.Adapter<RestaurantListAdapter.VH>() {
      * @return The total number of items in this adapter.
      */
     override fun getItemCount() = restaurants.size
+
+    fun setData(newData: List<Restaurant>) {
+        restaurants = newData
+        notifyDataSetChanged()
+    }
 
 
 }
