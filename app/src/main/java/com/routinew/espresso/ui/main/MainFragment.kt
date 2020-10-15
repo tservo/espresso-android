@@ -1,12 +1,13 @@
 package com.routinew.espresso.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.routinew.espresso.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.routinew.espresso.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
@@ -14,17 +15,45 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
+
+    /**
+     * @var binding
+     * View Binding
+     */
+    private lateinit var binding: MainFragmentBinding
+
+    private var restaurantAdapter = RestaurantListAdapter(listOf())
+
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        binding = MainFragmentBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+        binding.restaurantList.apply {
+            setHasFixedSize(true)
+
+            layoutManager = LinearLayoutManager(view.context)
+
+            adapter = restaurantAdapter
+        }
+
+        binding.loading.visibility = View.GONE
+        binding.restaurantList.visibility = View.VISIBLE
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
+        viewModel.getRestaurants().observe(viewLifecycleOwner) { restaurants ->
+            restaurantAdapter.setData(restaurants)
+        }
     }
-
 }
