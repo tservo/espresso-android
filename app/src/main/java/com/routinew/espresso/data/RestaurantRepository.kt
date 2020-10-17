@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import com.routinew.espresso.objects.Restaurant
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class RestaurantRepository {
-    private val espressoService = EspressoService()
-
+class RestaurantRepository @Inject constructor(
+        private val espressoService: EspressoService
+){
     fun getRestaurants(): LiveData<List<Restaurant>> {
         val data = MutableLiveData<List<Restaurant>>()
         espressoService.getRestaurantList().enqueue(object: Callback<List<Restaurant>> {

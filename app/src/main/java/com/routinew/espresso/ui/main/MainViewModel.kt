@@ -11,7 +11,8 @@ import com.routinew.espresso.objects.Restaurant
 
 class MainViewModel @ViewModelInject constructor(
     private val restaurantRepository: RestaurantRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle): ViewModel() {
+    @Assisted private val savedStateHandle: SavedStateHandle
+        ): ViewModel() {
 
     val restaurants = restaurantRepository.getRestaurants()
 
