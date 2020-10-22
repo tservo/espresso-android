@@ -1,6 +1,8 @@
 package com.routinew.espresso.objects
 
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class Restaurant(var name: String) {
     var date_established: String? = null
     var email: String? = null

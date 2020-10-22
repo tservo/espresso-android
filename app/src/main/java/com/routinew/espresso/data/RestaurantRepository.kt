@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import com.routinew.espresso.objects.Restaurant
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import javax.inject.Inject
 
-class RestaurantRepository @Inject constructor(
-        private val espressoService: EspressoService
+class RestaurantRepository /* @Inject */ constructor(
+        private val espressoService: EspressoInterface
 ){
     fun getRestaurants(): LiveData<List<Restaurant>> {
         val data = MutableLiveData<List<Restaurant>>()
@@ -25,6 +26,7 @@ class RestaurantRepository @Inject constructor(
                 call: retrofit2.Call<List<Restaurant>>,
                 response: Response<List<Restaurant>>
             ) {
+                Timber.i(response.toString())
                 data.value = response.body()
             }
 

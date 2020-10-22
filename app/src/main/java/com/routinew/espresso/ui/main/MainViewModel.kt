@@ -5,16 +5,16 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.routinew.espresso.data.EspressoService
 import com.routinew.espresso.data.RestaurantRepository
 import com.routinew.espresso.objects.Restaurant
+import javax.inject.Inject
 
 
-class MainViewModel @ViewModelInject constructor(
-    private val restaurantRepository: RestaurantRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle
-        ): ViewModel() {
+class MainViewModel : ViewModel() {
 
-    val restaurants = restaurantRepository.getRestaurants()
+    val repository = RestaurantRepository(EspressoService.instance)
+    val restaurants = repository.getRestaurants()
 
     // TODO: Implement the ViewModel
 //    fun getRestaurants() : LiveData<List<Restaurant>> {

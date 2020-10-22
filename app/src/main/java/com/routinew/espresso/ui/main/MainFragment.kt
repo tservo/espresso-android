@@ -17,8 +17,7 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private val viewModel: MainViewModel by viewModels ()
-
+    private val viewModel: MainViewModel by viewModels()
     /**
      * @var binding
      * View Binding
