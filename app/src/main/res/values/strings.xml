@@ -2,11 +2,11 @@
     <string name="app_name">Espresso</string>
     <string name="create_restaurant">Create Restaurant</string>
     <string name="restaurants">Restaurants</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="restaurant_details">Details</string>
 
     <!-- auth0 keys -->
     <string name="com_auth0_client_id">Tcp67ol2bfZC93Vy2yxgTjdO3fM62vMW</string>
     <string name="com_auth0_domain">espresso-dev.us.auth0.com</string>
-    <string name="ESPRESSO_DEV_SERVER">http://127.0.0.1:5000/</string>
+    <string name="ESPRESSO_DEV_SERVER">http://10.0.2.2:5000/</string>
 </resources>
