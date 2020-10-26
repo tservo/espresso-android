@@ -64,9 +64,9 @@ RecyclerView.Adapter<RestaurantListAdapter.VH>() {
     override fun onBindViewHolder(holder: VH, position: Int) {
         val restaurant = restaurants.get(position)
         holder.restaurantBinding.apply {
-            restaurantTitle.setText(restaurant.name)
-            restaurantStreetAddress.setText("${restaurant.street} ${restaurant.suite}")
-            restaurantCity.setText(restaurant.city)
+            restaurantTitle.text = restaurant.name
+            restaurantStreetAddress.text = "${restaurant.street} ${restaurant.suite}"
+            restaurantCity.text = restaurant.city
         }
     }
 
