@@ -2,8 +2,8 @@ package com.routinew.espresso.data
 
 import android.content.Context
 import com.routinew.espresso.R
-import com.routinew.espresso.data.json.EspressoPacket
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.json.EspressoRestaurantListPacket
+import com.routinew.espresso.data.json.EspressoRestaurantPacket
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -16,10 +16,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 interface EspressoInterface {
     @GET("restaurants")
-    fun getRestaurantList() : Call<EspressoPacket>
+    fun getRestaurantList() : Call<EspressoRestaurantListPacket>
 
     @GET("restaurant/{id}")
-    fun getRestaurant(@Path("id") restaurantId: Int): Call<Restaurant>
+    fun getRestaurant(@Path("id") restaurantId: Int): Call<EspressoRestaurantPacket>
 
 //    @POST("restaurants/create")
 //    fun createRestaurant = TODO()

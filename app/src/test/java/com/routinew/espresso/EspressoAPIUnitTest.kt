@@ -1,6 +1,8 @@
 package com.routinew.espresso
 
-import com.routinew.espresso.data.json.EspressoPacket
+import com.routinew.espresso.data.json.EspressoRestaurantPacket
+import com.routinew.espresso.data.json.EspressoRestaurantListPacket
+import com.routinew.espresso.objects.Restaurant
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.hamcrest.MatcherAssert.assertThat
@@ -75,8 +77,8 @@ class EspressoAPIUnitTest {
 
     @DisplayName("When receiving /restaurants JSON")
     @Nested
-    inner class RestaurantsList {
-        private val espressoPacketAdapter = moshi.adapter(EspressoPacket::class.java)
+    inner class WhenRestaurantsList {
+        private val espressoPacketAdapter = moshi.adapter(EspressoRestaurantListPacket::class.java)
         @BeforeEach
         fun whenCondition() {
 
@@ -86,13 +88,13 @@ class EspressoAPIUnitTest {
         @DisplayName("Then should get a list of restaurants")
         fun thenCondition() {
             val espressoPacket = espressoPacketAdapter.fromJson(restaurantListJSON)
-            assertThat("Return success packet",espressoPacket,isA(EspressoPacket::class.java))
+            assertThat("Return success packet",espressoPacket,isA(EspressoRestaurantListPacket::class.java))
             val restaurantList = espressoPacket!!.restaurants
             assertThat("Return list of 2 restaurants",restaurantList, hasSize(2))
             assertThat("Restaurant 1 is named 'Herbal'",
-                restaurantList.get(0).name,equalTo("Herbal"))
+                restaurantList!![0].name,equalTo("Herbal"))
             assertThat("Restaurant 2 is named 'Chutney'",
-                restaurantList.get(1).name,equalTo("Chutney"))
+                restaurantList[1].name,equalTo("Chutney"))
 
 
         }
@@ -100,25 +102,20 @@ class EspressoAPIUnitTest {
 
     @DisplayName("When receiving /restaurant/{id} JSON")
     @Nested
-    inner class Restaurant {
-        private val espressoPacketAdapter = moshi.adapter(EspressoPacket::class.java)
+    inner class WhenSingleRestaurant {
+        private val espressoPacketAdapter = moshi.adapter(EspressoRestaurantPacket::class.java)
         @BeforeEach
         fun whenCondition() {
 
         }
 
         @Test
-        @DisplayName("Then should get a list of restaurants")
+        @DisplayName("Then should get a single restaurant")
         fun thenCondition() {
-            val espressoPacket = espressoPacketAdapter.fromJson(restaurantListJSON)
-            assertThat("Return success packet",espressoPacket,isA(EspressoPacket::class.java))
-            val restaurantList = espressoPacket!!.restaurants
-            assertThat("Return list of 2 restaurants",restaurantList, hasSize(2))
-            assertThat("Restaurant 1 is named 'Herbal'",
-                restaurantList.get(0).name,equalTo("Herbal"))
-            assertThat("Restaurant 2 is named 'Chutney'",
-                restaurantList.get(1).name,equalTo("Chutney"))
-
+            val espressoPacket = espressoPacketAdapter.fromJson(restaurantJSON)
+            assertThat("Return success packet",espressoPacket,isA(EspressoRestaurantPacket::class.java))
+            val restaurant = espressoPacket!!.restaurant!!
+            assertThat("Return a restaurant",restaurant, isA(Restaurant::class.java))
 
         }
     }

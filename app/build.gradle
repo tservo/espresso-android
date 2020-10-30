@@ -60,6 +60,7 @@ dependencies {
     // dependency injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // log
