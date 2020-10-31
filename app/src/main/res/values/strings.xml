@@ -9,4 +9,6 @@
     <string name="com_auth0_client_id">Tcp67ol2bfZC93Vy2yxgTjdO3fM62vMW</string>
     <string name="com_auth0_domain">espresso-dev.us.auth0.com</string>
     <string name="ESPRESSO_DEV_SERVER">http://10.0.2.2:5000/</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

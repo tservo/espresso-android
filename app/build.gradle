@@ -46,7 +46,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     // lifecycle
@@ -60,6 +60,7 @@ dependencies {
     // dependency injection
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // log
@@ -75,13 +76,24 @@ dependencies {
     implementation "com.squareup.moshi:moshi:$moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
     implementation "com.squareup.moshi:moshi-adapters:$moshi_version"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
     // debugging network calls
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+    def okhttp_version = "4.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     // Testing Fragments in Isolation
     debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
-    testImplementation 'junit:junit:4.13'
+    // testImplementation 'junit:junit:4.13'
+    testImplementation "org.junit.platform:junit-platform-runner:1.6.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.2"
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+
+
+    // Mock Web Server
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:$arch_version"
 
