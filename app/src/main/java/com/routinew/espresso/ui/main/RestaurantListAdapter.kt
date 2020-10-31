@@ -1,14 +1,51 @@
 package com.routinew.espresso.ui.main
 
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.routinew.espresso.MainActivity
+import com.routinew.espresso.R
 import com.routinew.espresso.databinding.RestaurantBinding
 import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.ui.restaurant.RestaurantDetailActivity
+import com.routinew.espresso.ui.restaurant.RestaurantDetailFragment
 
-class RestaurantListAdapter(private var restaurants: List<Restaurant>) :
+class RestaurantListAdapter(
+    private val parentActivity: MainActivity,
+    private var restaurants: List<Restaurant>,
+    private val twoPane: Boolean
+) :
 RecyclerView.Adapter<RestaurantListAdapter.VH>() {
-    class VH(val restaurantBinding: RestaurantBinding) : RecyclerView.ViewHolder(restaurantBinding.root)
+    inner class VH(val restaurantBinding: RestaurantBinding):
+        RecyclerView.ViewHolder(restaurantBinding.root)
+
+
+    private val onClickListener: View.OnClickListener
+
+    init {
+        onClickListener = View.OnClickListener { v ->
+            val item = v.tag as Restaurant
+            if (twoPane) {
+                val fragment = RestaurantDetailFragment().apply {
+                    arguments = Bundle().apply {
+                        putInt(RestaurantDetailFragment.ARG_ITEM_ID, item.id)
+                    }
+                }
+                parentActivity.supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.restaurant_detail_container, fragment)
+                    .commitNow()
+            } else {
+                val intent = Intent(v.context, RestaurantDetailActivity::class.java).apply {
+                    putExtra(RestaurantDetailFragment.ARG_ITEM_ID, item.id)
+                }
+                v.context.startActivity(intent)
+            }
+        }
+    }
 
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
@@ -62,7 +99,7 @@ RecyclerView.Adapter<RestaurantListAdapter.VH>() {
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val restaurant = restaurants.get(position)
+        val restaurant = restaurants[position]
         holder.restaurantBinding.apply {
             restaurantTitle.text = restaurant.name
             restaurantStreetAddress.text = "${restaurant.street} ${restaurant.suite}"

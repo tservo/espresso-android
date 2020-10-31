@@ -52,7 +52,6 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
         viewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
             restaurantAdapter.setData(restaurants)
         }

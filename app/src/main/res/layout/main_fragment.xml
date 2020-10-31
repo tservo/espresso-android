@@ -41,13 +41,17 @@
             android:layout_height="match_parent"
             android:text="@string/loading"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:visibility="invisible"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/restaurant_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            tools:visibility="visible"
+            tools:context="com.routinew.espresso.ui.restaurant.RestaurantListActivity"
+            tools:listitem="@layout/restaurant_list_content"/>
 
        
     </FrameLayout>
