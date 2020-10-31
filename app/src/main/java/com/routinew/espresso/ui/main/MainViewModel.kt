@@ -18,7 +18,7 @@ class MainViewModel : ViewModel() {
     // this will get the entire list of restaurants
     val restaurants = repository.getRestaurants()
 
-    fun getRestaurant(id: Int) {
+    fun getRestaurant(id: Int): LiveData<Restaurant> {
         return repository.getRestaurant(id)
     }
 }

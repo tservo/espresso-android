@@ -43,7 +43,8 @@ class EspressoService {
                     .build()
 
                 INSTANCE = Retrofit.Builder()
-                    .baseUrl(context.getString(R.string.ESPRESSO_DEV_SERVER))
+                    .baseUrl(context.getString(R.string.ESPRESSO_DEV_SERVER) +
+                            context.getString(R.string.ESPRESSO_API_BASE))
                     .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .build()
                     .create(EspressoInterface::class.java)
