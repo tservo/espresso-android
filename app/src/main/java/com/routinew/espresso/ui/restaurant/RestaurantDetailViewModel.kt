@@ -19,7 +19,7 @@ class RestaurantDetailViewModel : ViewModel() {
     // this will keep the single restaurant
     lateinit var restaurant: LiveData<Restaurant>
 
-    fun getRestaurant(id: Int): LiveData<Restaurant> {
+    fun getRestaurant(id: Int) {
         restaurant = repository.getRestaurant(id)
     }
 }

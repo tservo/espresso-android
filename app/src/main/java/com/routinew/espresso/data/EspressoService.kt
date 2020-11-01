@@ -18,7 +18,7 @@ interface EspressoInterface {
     @GET("restaurants")
     fun getRestaurantList() : Call<EspressoRestaurantListPacket>
 
-    @GET("restaurant/{id}")
+    @GET("restaurants/{id}")
     fun getRestaurant(@Path("id") restaurantId: Int): Call<EspressoRestaurantPacket>
 
 //    @POST("restaurants/create")

@@ -6,6 +6,8 @@
     android:id="@+id/restaurant_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
     app:strokeColor="#B388FF"
     app:strokeWidth="1dp"
     android:layout_margin="2dp">

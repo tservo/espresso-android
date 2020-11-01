@@ -1,46 +1,42 @@
 package com.routinew.espresso.ui.main
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.routinew.espresso.MainActivity
 import com.routinew.espresso.R
-import com.routinew.espresso.databinding.RestaurantBinding
+import com.routinew.espresso.databinding.RestaurantListContentBinding
 import com.routinew.espresso.objects.Restaurant
 import com.routinew.espresso.ui.restaurant.RestaurantDetailActivity
 import com.routinew.espresso.ui.restaurant.RestaurantDetailFragment
 
 class RestaurantListAdapter(
-    private val parentActivity: MainActivity,
+    private val parentActivity: FragmentActivity,
     private var restaurants: List<Restaurant>,
     private val twoPane: Boolean
 ) :
 RecyclerView.Adapter<RestaurantListAdapter.VH>() {
-    inner class VH(val restaurantBinding: RestaurantBinding):
-        RecyclerView.ViewHolder(restaurantBinding.root)
-
+    inner class VH(val restaurantBinding: RestaurantListContentBinding):
+        RecyclerView.ViewHolder(restaurantBinding.root) {
+        val card = restaurantBinding.root
+    }
 
     private val onClickListener: View.OnClickListener
 
     init {
         onClickListener = View.OnClickListener { v ->
-            val item = v.tag as Restaurant
+            val restaurantId = v.tag as Int
             if (twoPane) {
-                val fragment = RestaurantDetailFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(RestaurantDetailFragment.ARG_ITEM_ID, item.id)
-                    }
-                }
+                val fragment = RestaurantDetailFragment.newInstance(restaurantId)
                 parentActivity.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.restaurant_detail_container, fragment)
                     .commitNow()
             } else {
                 val intent = Intent(v.context, RestaurantDetailActivity::class.java).apply {
-                    putExtra(RestaurantDetailFragment.ARG_ITEM_ID, item.id)
+                    putExtra(RestaurantDetailFragment.ARG_RESTAURANT_ID, restaurantId)
                 }
                 v.context.startActivity(intent)
             }
@@ -71,7 +67,7 @@ RecyclerView.Adapter<RestaurantListAdapter.VH>() {
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val restaurantBinding = RestaurantBinding.inflate(LayoutInflater.from(parent.context),
+        val restaurantBinding = RestaurantListContentBinding.inflate(LayoutInflater.from(parent.context),
             parent, false)
 
         return VH(restaurantBinding)
@@ -104,6 +100,10 @@ RecyclerView.Adapter<RestaurantListAdapter.VH>() {
             restaurantTitle.text = restaurant.name
             restaurantStreetAddress.text = "${restaurant.street} ${restaurant.suite}"
             restaurantCity.text = restaurant.city
+        }
+        holder.card.apply {
+            tag = restaurant.id
+            setOnClickListener(onClickListener)
         }
     }
 

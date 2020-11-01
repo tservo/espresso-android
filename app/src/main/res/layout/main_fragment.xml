@@ -7,16 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/restaurants"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
@@ -33,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/message">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/loading"
@@ -50,7 +40,7 @@
             android:layout_height="match_parent"
             android:visibility="invisible"
             tools:visibility="visible"
-            tools:context="com.routinew.espresso.ui.restaurant.RestaurantListActivity"
+            tools:context=".MainActivity"
             tools:listitem="@layout/restaurant_list_content"/>
 
        

@@ -2,29 +2,31 @@ package com.routinew.espresso.ui.restaurant
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import com.routinew.espresso.MainActivity
 import com.routinew.espresso.R
+import com.routinew.espresso.databinding.ActivityRestaurantDetailBinding
 
 /**
  * An activity representing a single Restaurant detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a [RestaurantListActivity].
+ * in a [MainActivity].
  */
 class RestaurantDetailActivity : AppCompatActivity() {
 
-    private lateinit var binding: RestaurantDetailActivityBinding
+    private lateinit var binding: ActivityRestaurantDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_restaurant_detail)
-        setSupportActionBar(findViewById(R.id.detail_toolbar))
+        binding = ActivityRestaurantDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
+        setSupportActionBar(binding.detailToolbar)
+
+        binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
@@ -44,14 +46,9 @@ class RestaurantDetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            val fragment = RestaurantDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(
-                        RestaurantDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(RestaurantDetailFragment.ARG_ITEM_ID)
-                    )
-                }
-            }
+            val fragment = RestaurantDetailFragment.newInstance(
+                intent.getIntExtra(RestaurantDetailFragment.ARG_RESTAURANT_ID,0)
+            )
 
             supportFragmentManager.beginTransaction()
                 .add(R.id.restaurant_detail_container, fragment)

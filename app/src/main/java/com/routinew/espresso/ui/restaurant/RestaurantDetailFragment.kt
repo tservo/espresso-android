@@ -12,13 +12,14 @@ import com.routinew.espresso.R
 import com.routinew.espresso.databinding.MainFragmentBinding
 import com.routinew.espresso.databinding.RestaurantDetailBinding
 import com.routinew.espresso.dummy.DummyContent
+import com.routinew.espresso.objects.Restaurant
 import com.routinew.espresso.ui.main.MainFragment
 import com.routinew.espresso.ui.main.MainViewModel
 import com.routinew.espresso.ui.main.RestaurantListAdapter
 
 /**
  * A fragment representing a single Restaurant detail screen.
- * This fragment is either contained in a [RestaurantListActivity]
+ * This fragment is either contained in a [MainActivity]
  * in two-pane mode (on tablets) or a [RestaurantDetailActivity]
  * on handsets.
  */
@@ -29,8 +30,14 @@ class RestaurantDetailFragment : Fragment() {
          * The fragment argument representing the item ID that this fragment
          * represents.
          */
-        const val ARG_ITEM_ID = "restaurant_item"
-        fun newInstance() = RestaurantDetailFragment()
+        const val ARG_RESTAURANT_ID = "restaurant_id"
+        fun newInstance(restaurantId: Int) : RestaurantDetailFragment {
+            return RestaurantDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_RESTAURANT_ID, restaurantId)
+                }
+            }
+        }
 
     }
 
@@ -42,22 +49,16 @@ class RestaurantDetailFragment : Fragment() {
      */
     private lateinit var binding: RestaurantDetailBinding
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private var restaurant: Restaurant? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
+            if (it.containsKey(ARG_RESTAURANT_ID)) {
                 // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
+                // arguments. In a real-world scenario, use a Loader (or ViewModel!)
                 // to load content from a content provider.
-                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
-                    item?.content
+                viewModel.getRestaurant(it.getInt(ARG_RESTAURANT_ID))
             }
         }
     }
@@ -66,12 +67,10 @@ class RestaurantDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.restaurant_detail, container, false)
+        binding = RestaurantDetailBinding.inflate(inflater, container, false)
+        val rootView = binding.root
 
-        // Show the dummy content as text in a TextView.
-        item?.let {
-            rootView.findViewById<TextView>(R.id.restaurant_detail).text = it.details
-        }
+        // Show the dummy content as text in a TextView. -- this might be a loading screen.
 
         return rootView
     }
@@ -79,16 +78,15 @@ class RestaurantDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.restaurant.observe(viewLifecycleOwner) { restaurant ->
-           // restaurantAdapter.setData(restaurant) // update the single restaurant
+           displayView(restaurant) // update the single restaurant
         }
     }
 
+    fun displayView(restaurant: Restaurant?) {
+        // update the parent activity layout
 
+        activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title =
+            restaurant?.name
 
-
-
-
-    private var restaurantAdapter = RestaurantListAdapter(listOf())
-
-
+    }
 }
