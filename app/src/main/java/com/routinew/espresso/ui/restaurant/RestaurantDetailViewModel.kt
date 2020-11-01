@@ -20,6 +20,9 @@ class RestaurantDetailViewModel : ViewModel() {
     lateinit var restaurant: LiveData<Restaurant>
 
     fun getRestaurant(id: Int) {
+        if (id == 0) return
+        
+
         restaurant = repository.getRestaurant(id)
     }
 }
