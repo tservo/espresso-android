@@ -31,10 +31,10 @@ class RestaurantRepository /* @Inject */ constructor(
             ) {
                 Timber.i(response.toString())
                 val body = response.body()
-                val success = body!!.success
+                val success = body?.success ?: false
 
                 if (success) {
-                    listOfRestaurants.value = body.restaurants
+                    listOfRestaurants.value = body?.restaurants ?: emptyList()
                 } else {
                     listOfRestaurants.value = emptyList()
                 }
@@ -45,7 +45,6 @@ class RestaurantRepository /* @Inject */ constructor(
              * occurred creating the request or processing the response.
              */
             override fun onFailure(call: retrofit2.Call<EspressoRestaurantListPacket>, t: Throwable) {
-                // TODO("Not yet implemented")
                 Timber.w(t)
                 listOfRestaurants.value = emptyList()
 
