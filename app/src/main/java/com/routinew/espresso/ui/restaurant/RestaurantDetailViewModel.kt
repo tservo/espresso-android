@@ -21,7 +21,7 @@ class RestaurantDetailViewModel : ViewModel() {
 
     fun getRestaurant(id: Int) {
         if (id == 0) return
-        
+
 
         restaurant = repository.getRestaurant(id)
     }

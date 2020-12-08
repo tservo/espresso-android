@@ -1,6 +1,8 @@
 package com.routinew.espresso
 
 import android.app.Application
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.routinew.espresso.data.EspressoService
 import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
@@ -17,10 +19,7 @@ class EspressoApplication : Application() {
             Timber.plant(Timber.DebugTree())
 
             // add the stetho diagnostic tools
-//            Stetho.initializeWithDefaults(this)
-//            OkHttpClient.Builder()
-//                .addNetworkInterceptor(StethoInterceptor())
-//                .build()
+            Stetho.initializeWithDefaults(this)
         }
 
     }
