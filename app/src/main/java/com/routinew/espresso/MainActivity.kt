@@ -22,7 +22,6 @@ import com.routinew.espresso.databinding.MainFragmentBinding
 import com.routinew.espresso.ui.login.LoginActivity
 import com.routinew.espresso.ui.main.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.restaurant_list.view.*
 import timber.log.Timber
 
 @AndroidEntryPoint
