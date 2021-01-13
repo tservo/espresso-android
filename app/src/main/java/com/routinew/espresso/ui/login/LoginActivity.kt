@@ -22,6 +22,7 @@ import com.routinew.espresso.MainActivity
 import com.routinew.espresso.R
 import com.routinew.espresso.data.EspressoService
 import com.routinew.espresso.databinding.ActivityLoginBinding
+import com.routinew.espresso.ui.settings.SettingsActivity
 import timber.log.Timber
 
 class LoginActivity : AppCompatActivity() {
@@ -66,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
             showNextActivity()
         }
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
      fun login(view: View) {
@@ -90,6 +92,7 @@ class LoginActivity : AppCompatActivity() {
                  */
                 override fun onFailure(exception: AuthenticationException) {
                     Timber.w(exception)
+                    Timber.w(exception.description)
                     runOnUiThread {
                         Toast.makeText(
                             this@LoginActivity,
@@ -116,6 +119,13 @@ class LoginActivity : AppCompatActivity() {
 
             })
     }
+
+    fun settings(view: View) {
+        val intent = Intent(this@LoginActivity, SettingsActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 
     private fun logout() {
 

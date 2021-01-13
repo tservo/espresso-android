@@ -1,0 +1,33 @@
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:context=".ui.settings.SettingsActivity.SettingsFragment">
+
+    <PreferenceCategory
+        app:title="@string/debug"
+        tools:title="@string/debug">
+
+        <SwitchPreferenceCompat
+            tools:value="true"
+            app:key="usecustomserverlocation"
+            app:summaryOff="@string/default_espresso_server"
+            tools:summaryOff="@string/default_espresso_server"
+            app:summaryOn="@string/custom_espresso_server"
+            tools:summaryOn="@string/custom_espresso_server"
+            app:title="@string/custom_espresso_server_location_title"
+            tools:title="@string/custom_espresso_server_location_title" />
+
+        <EditTextPreference
+            app:dependency="usecustomserverlocation"
+            app:key="customserverlocation"
+            app:title="@string/custom_espresso_server_location"
+            tools:title="@string/custom_espresso_server_location"
+            app:defaultValue="10.0.2.2:5000"
+            tools:value="192.168.0.4:5000"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

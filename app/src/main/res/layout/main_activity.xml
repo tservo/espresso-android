@@ -21,12 +21,12 @@ tools:context=".MainActivity">
 
 </com.google.android.material.appbar.AppBarLayout>
 
-<FrameLayout
+<androidx.fragment.app.FragmentContainerView
     android:id="@+id/restaurant_list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-</FrameLayout>
+</androidx.fragment.app.FragmentContainerView>
 
 <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:id="@+id/fab"

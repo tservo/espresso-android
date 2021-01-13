@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -29,8 +30,7 @@
         android:baselineAligned="false"
         android:divider="?android:attr/dividerHorizontal"
         android:orientation="horizontal"
-        android:showDividers="middle"
-        tools:context=".MainActivity">
+        android:showDividers="middle">
 
         <!--
         This layout is a two-pane layout for the Restaurants master/detail flow.
@@ -42,14 +42,16 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            tools:context=".ui.main.MainFragment"
+            tools:layout="@layout/restaurant_list"
             />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/restaurant_detail_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3" />
+            android:layout_weight="3"
+            tools:layout="@layout/main_fragment"
+            />
 
     </LinearLayout>
 
