@@ -123,7 +123,7 @@ class LoginActivity : AppCompatActivity() {
     fun settings(view: View) {
         val intent = Intent(this@LoginActivity, SettingsActivity::class.java)
         startActivity(intent)
-        finish()
+        return
     }
 
 
