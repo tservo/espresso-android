@@ -16,10 +16,6 @@ class EspressoApplication : Application() {
         super.onCreate()
 
         EspressoService.buildInterface(this)
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .registerOnSharedPreferenceChangeListener(EspressoService.prefsListener)
-
-
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
