@@ -45,7 +45,7 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="debug">Debug</string>
-    <string name="default_espresso_server">Using default server &defaultip;:&defaultport;</string>
+    <string name="default_espresso_server">Using default server http://&defaultip;:&defaultport;</string>
     <string name="custom_espresso_server_location_title">Use custom espresso server location</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="custom_espresso_server">Using custom server</string>

@@ -23,8 +23,8 @@
             app:key="customserverlocation"
             app:title="@string/custom_espresso_server_location"
             tools:title="@string/custom_espresso_server_location"
-            app:defaultValue="10.0.2.2:5000"
-            tools:value="192.168.0.4:5000"
+            app:defaultValue="@string/ESPRESSO_DEV_SERVER"
+            tools:value="@string/ESPRESSO_DEV_SERVER"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

@@ -36,12 +36,12 @@
         <activity
             android:name=".ui.restaurant.RestaurantDetailActivity"
             android:label="@string/title_restaurant_detail"
-            android:parentActivityName=".MainActivity"            >
+            android:parentActivityName=".ui.MainActivity"            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.routinew.espresso.MainActivity" />
+                android:value="com.routinew.espresso.ui.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.MainActivity" />
     </application>
 
 </manifest>

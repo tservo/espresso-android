@@ -1,4 +1,4 @@
-package com.routinew.espresso
+package com.routinew.espresso.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,23 +6,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
-import com.auth0.android.authentication.storage.CredentialsManager
-import com.auth0.android.authentication.storage.CredentialsManagerException
 import com.auth0.android.authentication.storage.SecureCredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
-import com.auth0.android.callback.BaseCallback
-import com.auth0.android.result.Credentials
 import com.google.android.material.snackbar.Snackbar
-import com.routinew.espresso.data.EspressoService
+import com.routinew.espresso.R
 import com.routinew.espresso.databinding.MainActivityBinding
-import com.routinew.espresso.databinding.MainFragmentBinding
 import com.routinew.espresso.ui.login.LoginActivity
 import com.routinew.espresso.ui.main.MainFragment
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -56,9 +49,6 @@ class MainActivity : AppCompatActivity() {
             AuthenticationAPIClient(auth0), SharedPreferencesStorage(this)
         )
 
-
-
-
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -79,9 +69,6 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.restaurant_list_container, MainFragment.newInstance(twoPane))
                     .commitNow()
         }
-
-        auth0 = Auth0(this)
-        auth0.isOIDCConformant = true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

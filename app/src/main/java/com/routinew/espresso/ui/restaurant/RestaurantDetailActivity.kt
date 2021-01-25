@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
-import com.routinew.espresso.MainActivity
+import com.routinew.espresso.ui.MainActivity
 import com.routinew.espresso.R
 import com.routinew.espresso.databinding.ActivityRestaurantDetailBinding
 

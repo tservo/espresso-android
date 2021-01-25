@@ -2,10 +2,12 @@ package com.routinew.espresso.ui.login
 
 import android.app.Dialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.auth0.android.Auth0
 import com.auth0.android.Auth0Exception
 import com.auth0.android.authentication.AuthenticationAPIClient
@@ -18,7 +20,7 @@ import com.auth0.android.provider.AuthCallback
 import com.auth0.android.provider.VoidCallback
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
-import com.routinew.espresso.MainActivity
+import com.routinew.espresso.ui.MainActivity
 import com.routinew.espresso.R
 import com.routinew.espresso.data.EspressoService
 import com.routinew.espresso.databinding.ActivityLoginBinding
@@ -68,14 +70,15 @@ class LoginActivity : AppCompatActivity() {
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     }
 
      fun login(view: View) {
-        WebAuthProvider.login(auth0)
-            .withScheme(SCHEME)
-            .withAudience(getString(R.string.com_auth0_audience))
-            .withScope("openid offline_access read:restaurants")
-            .start(this, object : AuthCallback {
+        WebAuthProvider.login(auth0).run {
+            withScheme(SCHEME)
+            withAudience(getString(R.string.com_auth0_audience))
+            withScope("openid offline_access read:restaurants")
+            start(this@LoginActivity, object : AuthCallback {
                 /**
                  * Called when the failure reason is displayed in a [android.app.Dialog].
                  *
@@ -109,7 +112,6 @@ class LoginActivity : AppCompatActivity() {
                  */
                 override fun onSuccess(credentials: Credentials) {
                     Timber.i(credentials.toString())
-                    EspressoService.buildInterface(this@LoginActivity)
                     credentialsManager.saveCredentials(credentials)
 
                     runOnUiThread {
@@ -118,9 +120,10 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             })
+        }
     }
 
-    fun settings(view: View) {
+    fun settings(_view: View) {
         val intent = Intent(this@LoginActivity, SettingsActivity::class.java)
         startActivity(intent)
         return
@@ -129,9 +132,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun logout() {
 
-        WebAuthProvider.logout(auth0)
-            .withScheme(SCHEME)
-            .start(this, object : VoidCallback {
+        WebAuthProvider.logout(auth0).run {
+            withScheme(SCHEME)
+            start(this@LoginActivity, object : VoidCallback {
                 /**
                  * Method called on Auth0 API request failure
                  *
@@ -155,6 +158,8 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             })
+        }
+
     }
 
     private fun showNextActivity() {
@@ -181,7 +186,7 @@ class LoginActivity : AppCompatActivity() {
              */
             override fun onSuccess(payload: Credentials?) {
                 Timber.d(payload?.accessToken.toString())
-                EspressoService.setCredentials(payload)
+                EspressoService.credentials = payload
 
 
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
