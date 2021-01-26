@@ -33,7 +33,6 @@ class ServiceGenerator {
                 baseUrl("$server/$apiPath")
         }
 
-
         fun <S> createService(serviceClass : Class<S>, server: String, apiPath: String, interceptor: Interceptor? =null) : S {
             if (interceptor != null && interceptor !in httpClientBuilder.interceptors()) {
                 httpClientBuilder.addInterceptor(interceptor)

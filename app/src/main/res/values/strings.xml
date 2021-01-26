@@ -11,7 +11,7 @@
     <string name="restaurant_details">Details</string>
 
     <!-- auth0 keys -->
-    <string name="ESPRESSO_DEV_SERVER">http://&defaultip;:&defaultport;/</string>
+    <string name="ESPRESSO_DEV_SERVER">http://&defaultip;:&defaultport;</string>
     <string name="ESPRESSO_API_BASE">api/v2/</string>
 
     <string name="login">Log in</string>

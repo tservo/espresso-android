@@ -77,15 +77,6 @@ class EspressoService {
             chain.proceed(builder.build())
         }
 
-        fun updateServerLoc(newApiPath: String, newServer: String) {
-            // call on prefs changed
-            if (newApiPath != apiPath || newServer != server) {
-                apiPath = newApiPath
-                server = newServer
-            }
-            createService(apiPath, server)
-        }
-
         fun buildInterface(context: Context) {
             if (!initialized.getAndSet(true)) {
                 // these won't change
@@ -93,22 +84,30 @@ class EspressoService {
                 defaultServer = context.getString(R.string.ESPRESSO_DEV_SERVER)
 
                 val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+                with(sharedPreferences) {
 
-                server = if (sharedPreferences.getBoolean("usecustomerserverlocation", false)) ({
-                    sharedPreferences.getString("customserverlocation", defaultServer)
-                        .also { Timber.i("Server Location $it") }
-                }).toString() else {
-                    defaultServer
+                    server = when (getBoolean("usecustomserverlocation", false)) {
+                        true -> getString("customserverlocation", defaultServer)!!.also { Timber.i("Server Location $it") }
+                        false -> defaultServer.also{ Timber.i("Default Location $it") }
+                    }
+                    registerOnSharedPreferenceChangeListener(setupListener)
                 }
-
-                sharedPreferences.registerOnSharedPreferenceChangeListener(setupListener)
-                createService(apiPath, server)
-
+                createService(server, apiPath)
                 this.context = context
             }
         }
 
-        private fun createService(apiPath: String, server: String) {
+        fun updateServerLoc(newServer: String, newApiPath: String = apiPath) {
+            // call on prefs changed
+            if (newApiPath != apiPath || newServer != server) {
+                apiPath = newApiPath
+                server = newServer
+                createService(server, apiPath)
+            }
+        }
+
+        private fun createService(server: String, apiPath: String) {
+            Timber.d("Retrofit created : $server $apiPath")
             INSTANCE = ServiceGenerator.createService(
                 EspressoInterface::class.java,
                 server, apiPath, credentialInterceptor
@@ -124,36 +123,19 @@ class EspressoService {
                 val debugString = "Shared Prefs: Key: $key"
                 Timber.i(debugString)
 
-                var isChanged = false
                 with(sharedPreferences) {
-                    val isDefault = getBoolean("usecustomserverlocation", false)
+                    val isCustom = getBoolean("usecustomserverlocation", false)
                     val newServer = getString("customserverlocation", defaultServer)!!
 
                     when (key) {
-                        "usecustomerserverlocation" -> {
-                            when {
-                                isDefault && server != defaultServer -> {
-                                    isChanged = true
-                                    server = defaultServer
-                                }
-                                !isDefault && server != newServer -> {
-                                    isChanged = true
-                                    server = newServer
-                                }
-                            }
-                        }
-                        "customserverlocation" -> if (server != newServer) {
-                            isChanged = true
-                            server = newServer
-                        }
+                        "usecustomserverlocation" -> updateServerLoc(if(isCustom) newServer else defaultServer)
+                        "customserverlocation" -> updateServerLoc(newServer)
                     }
                 }
 
-                if (isChanged) {
-                    createService(server, apiPath)
-                }
             } // method
         } // prefs listener
+
     } // companion object
 
 } // class
