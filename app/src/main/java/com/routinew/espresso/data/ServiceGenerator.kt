@@ -30,7 +30,7 @@ class ServiceGenerator {
 
         fun retrofitBuilder(server: String, apiPath: String) = Retrofit.Builder().apply {
                 addConverterFactory(moshi)
-                baseUrl("http://$server/$apiPath")
+                baseUrl("$server/$apiPath")
         }
 
 

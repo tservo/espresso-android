@@ -35,10 +35,10 @@ class LoginActivity : AppCompatActivity() {
         const val SCHEME = "demo"
     }
 
-    private lateinit var auth0 : Auth0
+    private lateinit var auth0: Auth0
     private lateinit var credentialsManager: SecureCredentialsManager
 
-    private lateinit var binding : ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,15 +46,15 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         binding = ActivityLoginBinding.inflate(layoutInflater)
 
-
-        auth0 = Auth0(this)
-        auth0.apply {
+        auth0 = Auth0(this).apply {
             isOIDCConformant = true
             isLoggingEnabled = true
         }
 
-        credentialsManager = SecureCredentialsManager(this,
-            AuthenticationAPIClient(auth0), SharedPreferencesStorage(this))
+        credentialsManager = SecureCredentialsManager(
+            this,
+            AuthenticationAPIClient(auth0), SharedPreferencesStorage(this)
+        )
 
 
         //Check if the activity was launched to log the user out
@@ -73,94 +73,87 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-     fun login(view: View) {
-        WebAuthProvider.login(auth0).run {
-            withScheme(SCHEME)
-            withAudience(getString(R.string.com_auth0_audience))
-            withScope("openid offline_access read:restaurants")
-            start(this@LoginActivity, object : AuthCallback {
-                /**
-                 * Called when the failure reason is displayed in a [android.app.Dialog].
-                 *
-                 * @param dialog error dialog
-                 */
-                override fun onFailure(dialog: Dialog) {
-                    runOnUiThread { dialog.show() }
+    fun login(_view: View) = WebAuthProvider.login(auth0).run {
+        withScheme(SCHEME)
+        withAudience(getString(R.string.com_auth0_audience))
+        withScope("openid offline_access read:restaurants")
+        start(this@LoginActivity, object : AuthCallback {
+            /**
+             * Called when the failure reason is displayed in a [android.app.Dialog].
+             *
+             * @param dialog error dialog
+             */
+            override fun onFailure(dialog: Dialog) {
+                runOnUiThread { dialog.show() }
+            }
+
+            /**
+             * Called with an AuthenticationException that describes the error.
+             *
+             * @param exception cause of the error
+             */
+            override fun onFailure(exception: AuthenticationException) {
+                Timber.w(exception)
+                Timber.w(exception.description)
+                runOnUiThread {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Error: " + exception.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+            }
 
-                /**
-                 * Called with an AuthenticationException that describes the error.
-                 *
-                 * @param exception cause of the error
-                 */
-                override fun onFailure(exception: AuthenticationException) {
-                    Timber.w(exception)
-                    Timber.w(exception.description)
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Error: " + exception.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            /**
+             * Called when the authentication is successful using web authentication against Auth0
+             *
+             * @param credentials Auth0 credentials information (id_token, refresh_token, etc).
+             */
+            override fun onSuccess(credentials: Credentials) {
+                Timber.i(credentials.toString())
+                credentialsManager.saveCredentials(credentials)
+
+                runOnUiThread {
+                    showNextActivity()
                 }
-
-                /**
-                 * Called when the authentication is successful using web authentication against Auth0
-                 *
-                 * @param credentials Auth0 credentials information (id_token, refresh_token, etc).
-                 */
-                override fun onSuccess(credentials: Credentials) {
-                    Timber.i(credentials.toString())
-                    credentialsManager.saveCredentials(credentials)
-
-                    runOnUiThread {
-                        showNextActivity()
-                    }
-                }
-
-            })
-        }
+            }
+        })
     }
 
     fun settings(_view: View) {
         val intent = Intent(this@LoginActivity, SettingsActivity::class.java)
         startActivity(intent)
-        return
     }
 
 
-    private fun logout() {
+    private fun logout() = WebAuthProvider.logout(auth0).run {
+        withScheme(SCHEME)
+        start(this@LoginActivity, object : VoidCallback {
+            /**
+             * Method called on Auth0 API request failure
+             *
+             * @param error The reason of the failure
+             */
+            override fun onFailure(error: Auth0Exception) {
+                Timber.w(error)
+                //Log out canceled, keep the user logged in
+                showNextActivity()
+            }
 
-        WebAuthProvider.logout(auth0).run {
-            withScheme(SCHEME)
-            start(this@LoginActivity, object : VoidCallback {
-                /**
-                 * Method called on Auth0 API request failure
-                 *
-                 * @param error The reason of the failure
-                 */
-                override fun onFailure(error: Auth0Exception) {
-                    Timber.w(error)
-                    //Log out canceled, keep the user logged in
-                    showNextActivity()
-                }
+            /**
+             * Method called on success with the payload or null.
+             *
+             * @param payload Request payload or null
+             */
+            override fun onSuccess(payload: Void?) {
 
-                /**
-                 * Method called on success with the payload or null.
-                 *
-                 * @param payload Request payload or null
-                 */
-                override fun onSuccess(payload: Void?) {
+                Timber.i("Logged Out")
+                credentialsManager.clearCredentials() // no longer valid
+            }
 
-                    Timber.i("Logged Out")
-                    credentialsManager.clearCredentials() // no longer valid
-                }
-
-            })
-        }
-
+        })
     }
+
 
     private fun showNextActivity() {
         credentialsManager.getCredentials(object : BaseCallback<Credentials, CredentialsManagerException> {

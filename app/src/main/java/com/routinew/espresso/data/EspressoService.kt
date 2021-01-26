@@ -111,7 +111,7 @@ class EspressoService {
         private fun createService(apiPath: String, server: String) {
             INSTANCE = ServiceGenerator.createService(
                 EspressoInterface::class.java,
-                apiPath, server, credentialInterceptor
+                server, apiPath, credentialInterceptor
             )
         }
 
@@ -150,7 +150,7 @@ class EspressoService {
                 }
 
                 if (isChanged) {
-                    createService(apiPath, server)
+                    createService(server, apiPath)
                 }
             } // method
         } // prefs listener
