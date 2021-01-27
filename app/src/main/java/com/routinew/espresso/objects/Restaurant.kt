@@ -3,7 +3,7 @@ package com.routinew.espresso.objects
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class Restaurant(var name: String, var id: Int) {
+data class Restaurant(var name: String, var id: Int) {
     var date_established: String? = null
     var email: String? = null
     var street: String? = null
@@ -13,9 +13,7 @@ class Restaurant(var name: String, var id: Int) {
     var zip_code: Int? = null
     var website: String? = null
     var phone: String? = null
-
-
-
+    
 }
 
 
