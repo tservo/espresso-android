@@ -39,7 +39,7 @@ class DispatchActivity : AppCompatActivity() {
                 Timber.w(error)
                 // we have credentials but we failed to read them?
                 runOnUiThread {
-                    Toast.makeText(this@DispatchActivity,
+                    Toast.makeText(this@DispatchActivity,git 
                         error.localizedMessage,
                         Toast.LENGTH_SHORT)
                         .show()

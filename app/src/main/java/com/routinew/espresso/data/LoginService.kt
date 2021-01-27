@@ -31,13 +31,13 @@ object LoginService {
     private lateinit var context: Context
 
     // webauthprovider builder.
-    val loginBuilder = WebAuthProvider.login(auth0).run {
-        withScheme(LoginService.SCHEME)
-        withAudience(context.getString(R.string.com_auth0_audience))
-        withScope("openid offline_access read:restaurants")
+    private fun LoginBuilder() = WebAuthProvider.login(auth0).run {
+            withScheme(SCHEME)
+            withAudience(context.getString(R.string.com_auth0_audience))
+            withScope("openid offline_access read:restaurants")
     }
 
-    val logoutBuilder =  WebAuthProvider.logout(auth0).run {
+    private fun LogoutBuilder() =  WebAuthProvider.logout(auth0).run {
         withScheme(SCHEME)
     }
 
@@ -57,7 +57,7 @@ object LoginService {
     /**
      *  Tries to log in.  Uses the activity specified (Usually LoginActivity)
      */
-    fun login(activity: Activity) = loginBuilder.start(activity,object : AuthCallback {
+    fun login(activity: Activity) = LoginBuilder().start(activity,object : AuthCallback {
             /**
              * Called when the failure reason is displayed in a [android.app.Dialog].
              *
@@ -106,7 +106,7 @@ object LoginService {
             }
         })
 
-    fun logout(activity: Activity) = logoutBuilder.start(activity, object : VoidCallback {
+    fun logout(activity: Activity) = LogoutBuilder().start(activity, object : VoidCallback {
         /**
          * Method called on Auth0 API request failure
          *

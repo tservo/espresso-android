@@ -32,16 +32,10 @@ import timber.log.Timber
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
-    private lateinit var auth0: Auth0
-    private lateinit var credentialsManager: SecureCredentialsManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-
-        auth0 = LoginService.auth0
-        credentialsManager = LoginService.credentialsManager
-
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -49,7 +43,6 @@ class LoginActivity : AppCompatActivity() {
 
     // called by button in resources
     fun login(_view: View) = LoginService.login(this)
-
 
     fun settings(_view: View) {
         val intent = Intent(this@LoginActivity, SettingsActivity::class.java)

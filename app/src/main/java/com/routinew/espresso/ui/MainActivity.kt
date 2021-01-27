@@ -31,10 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityBinding
 
-    private lateinit var auth0: Auth0
-    private lateinit var credentialsManager: SecureCredentialsManager
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MainActivityBinding.inflate(layoutInflater)
@@ -44,11 +40,6 @@ class MainActivity : AppCompatActivity() {
         toolbar.title = title
         setSupportActionBar(toolbar)
 
-        auth0 = Auth0(this)
-        auth0.isOIDCConformant = true
-        credentialsManager = SecureCredentialsManager(this,
-            AuthenticationAPIClient(auth0), SharedPreferencesStorage(this)
-        )
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
