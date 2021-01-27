@@ -31,13 +31,14 @@ class RestaurantRepository /* @Inject */ constructor(
             ) {
                 Timber.i(response.toString())
                 val body = response.body()
-                val success = body?.success ?: false
 
-                if (success) {
-                    listOfRestaurants.value = body?.restaurants ?: emptyList()
-                } else {
-                    listOfRestaurants.value = emptyList()
-                }
+                listOfRestaurants.value =
+                    if (body?.success == true) {
+                        body.restaurants ?: emptyList()
+                    }
+                    else {
+                        emptyList()
+                    }
             }
 
             /**
@@ -69,13 +70,14 @@ class RestaurantRepository /* @Inject */ constructor(
             ) {
                 Timber.i(response.toString())
                 val body = response.body()
-                val success = body!!.success
 
-                if (success) {
-                    singleRestaurant.value = body.restaurant
-                } else {
-                    singleRestaurant.value = null
-                }
+                singleRestaurant.value =
+                    if (body?.success == true) {
+                        body.restaurant
+                    }
+                    else {
+                        null
+                    }
             }
 
             /**

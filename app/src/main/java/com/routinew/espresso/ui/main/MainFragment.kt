@@ -26,6 +26,10 @@ class MainFragment : Fragment() {
         }
     }
 
+    /**
+     * @var viewModel
+     * Holds the view model associated with this fragment
+     */
     private val viewModel: MainViewModel by viewModels()
     /**
      * @var binding
@@ -35,6 +39,10 @@ class MainFragment : Fragment() {
 
     private lateinit var restaurantAdapter: RestaurantListAdapter
 
+    /**
+     *  @var twoPane: Boolean
+     *  Used for Master-Detail display
+     */
     private var twoPane = false
 
 
@@ -50,7 +58,6 @@ class MainFragment : Fragment() {
             }
         }
         restaurantAdapter = RestaurantListAdapter(requireActivity(),listOf(), twoPane)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:visibility="invisible"
             tools:visibility="visible"
-            tools:context=".MainActivity"
+            tools:context=".ui.MainActivity"
             tools:listitem="@layout/restaurant_list_content"/>
 
        

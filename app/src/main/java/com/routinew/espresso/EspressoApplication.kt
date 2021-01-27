@@ -1,6 +1,8 @@
 package com.routinew.espresso
 
 import android.app.Application
+import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.routinew.espresso.data.EspressoService
@@ -13,7 +15,7 @@ class EspressoApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        EspressoService.buildInterface(applicationContext)
+        EspressoService.buildInterface(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
@@ -21,6 +23,5 @@ class EspressoApplication : Application() {
             // add the stetho diagnostic tools
             Stetho.initializeWithDefaults(this)
         }
-
     }
 }
