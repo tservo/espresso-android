@@ -12,6 +12,7 @@ import com.auth0.android.authentication.storage.SecureCredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
 import com.google.android.material.snackbar.Snackbar
 import com.routinew.espresso.R
+import com.routinew.espresso.data.LoginService
 import com.routinew.espresso.databinding.MainActivityBinding
 import com.routinew.espresso.ui.login.LoginActivity
 import com.routinew.espresso.ui.main.MainFragment
@@ -88,9 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.putExtra(LoginActivity.EXTRA_CLEAR_CREDENTIALS, true)
-        startActivity(intent)
-        finish()
+        LoginService.logout(this)
     }
 }
