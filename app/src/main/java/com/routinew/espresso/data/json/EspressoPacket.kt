@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class EspressoRestaurantListPacket  (
     val success: Boolean,
-    val version: Int? = null,
+    val api_version: Int? = null,
     val message: String? = null,
     val restaurants: List<Restaurant>?= null
 )
@@ -15,7 +15,18 @@ data class EspressoRestaurantListPacket  (
 @JsonClass(generateAdapter = true)
 data class EspressoRestaurantPacket (
     val success: Boolean,
-    val version: Int? = null,
+    val api_version: Int? = null,
     val message: String? = null,
     val restaurant: Restaurant?= null
+)
+
+/**
+ * This class
+ */
+@JsonClass(generateAdapter = true)
+data class ResultPacket (
+    val success: Boolean,
+    val api_version: Int? = null,
+    val message: String? = null,
+    val id: Int? = null // for successful creation
 )

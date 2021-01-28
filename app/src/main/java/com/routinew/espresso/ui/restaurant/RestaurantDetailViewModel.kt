@@ -14,15 +14,23 @@ import javax.inject.Inject
 
 class RestaurantDetailViewModel : ViewModel() {
 
-    val repository = RestaurantRepository(EspressoService.instance)
+    private val repository = RestaurantRepository(EspressoService.instance)
 
     // this will keep the single restaurant
     lateinit var restaurant: LiveData<Restaurant>
 
+    private var _selectedId = 0
+    var selectedId : Int
+        get() = _selectedId
+        set(id)  {
+            if (id != _selectedId) {
+                _selectedId = id
+                getRestaurant(id)
+            }
+        }
+
     fun getRestaurant(id: Int) {
         if (id == 0) return
-
-
         restaurant = repository.getRestaurant(id)
     }
 }

@@ -6,21 +6,26 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.activity.viewModels
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.storage.SecureCredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
 import com.google.android.material.snackbar.Snackbar
 import com.routinew.espresso.R
+import com.routinew.espresso.data.LoginService
 import com.routinew.espresso.databinding.MainActivityBinding
 import com.routinew.espresso.ui.login.LoginActivity
 import com.routinew.espresso.ui.main.MainFragment
+import com.routinew.espresso.ui.main.MainViewModel
+import com.routinew.espresso.ui.restaurant.RestaurantDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-
+    val model: MainViewModel by viewModels()
+    val selectedModel: RestaurantDetailViewModel by viewModels()
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -29,10 +34,6 @@ class MainActivity : AppCompatActivity() {
     private var twoPane: Boolean = false
 
     private lateinit var binding: MainActivityBinding
-
-    private lateinit var auth0: Auth0
-    private lateinit var credentialsManager: SecureCredentialsManager
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +44,6 @@ class MainActivity : AppCompatActivity() {
         toolbar.title = title
         setSupportActionBar(toolbar)
 
-        auth0 = Auth0(this)
-        auth0.isOIDCConformant = true
-        credentialsManager = SecureCredentialsManager(this,
-            AuthenticationAPIClient(auth0), SharedPreferencesStorage(this)
-        )
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -88,9 +84,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.putExtra(LoginActivity.EXTRA_CLEAR_CREDENTIALS, true)
-        startActivity(intent)
-        finish()
+        LoginService.logout(this)
     }
 }

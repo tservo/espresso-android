@@ -53,12 +53,13 @@ class RestaurantDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            if (it.containsKey(ARG_RESTAURANT_ID)) {
+        arguments?.run {
+            if (containsKey(ARG_RESTAURANT_ID)) {
                 // Load the dummy content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader (or ViewModel!)
                 // to load content from a content provider.
-                viewModel.getRestaurant(it.getInt(ARG_RESTAURANT_ID))
+                viewModel.selectedId = getInt(ARG_RESTAURANT_ID)
+                // viewModel.getRestaurant(getInt(ARG_RESTAURANT_ID))
             }
         }
     }
@@ -66,7 +67,7 @@ class RestaurantDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = RestaurantDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
