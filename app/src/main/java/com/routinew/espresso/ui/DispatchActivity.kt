@@ -18,52 +18,13 @@ class DispatchActivity : AppCompatActivity() {
 
         val credentialsManager = LoginService.credentialsManager
         if (credentialsManager.hasValidCredentials()) {
-             initializeCredentials()
+             LoginService.getCredentials(this)
+            // try to get to the main activity
         }
         else {
             intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
-    }
-
-    fun initializeCredentials() {
-        LoginService.credentialsManager.getCredentials(object :
-            BaseCallback<Credentials, CredentialsManagerException> {
-            /**
-             * Method called on Auth0 API request failure
-             *
-             * @param error The reason of the failure
-             */
-            override fun onFailure(error: CredentialsManagerException) {
-                Timber.w(error)
-                // we have credentials but we failed to read them?
-                runOnUiThread {
-                    Toast.makeText(this@DispatchActivity,git 
-                        error.localizedMessage,
-                        Toast.LENGTH_SHORT)
-                        .show()
-
-                    val intent = Intent(this@DispatchActivity, LoginActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            }
-
-            /**
-             * Method called on success with the payload or null.
-             *
-             * @param payload Request payload or null
-             */
-            override fun onSuccess(payload: Credentials?) {
-                Timber.d(payload?.accessToken.toString())
-                EspressoService.credentials = payload // place this in a user class
-
-                val intent = Intent(this@DispatchActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-
-        })
     }
 }

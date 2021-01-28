@@ -9,8 +9,10 @@ import com.auth0.android.Auth0
 import com.auth0.android.Auth0Exception
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.AuthenticationException
+import com.auth0.android.authentication.storage.CredentialsManagerException
 import com.auth0.android.authentication.storage.SecureCredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
+import com.auth0.android.callback.BaseCallback
 import com.auth0.android.provider.AuthCallback
 import com.auth0.android.provider.VoidCallback
 import com.auth0.android.provider.WebAuthProvider
@@ -18,6 +20,7 @@ import com.auth0.android.result.Credentials
 import com.routinew.espresso.R
 import com.routinew.espresso.ui.DispatchActivity
 import com.routinew.espresso.ui.MainActivity
+import com.routinew.espresso.ui.login.LoginActivity
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -127,7 +130,7 @@ object LoginService {
             Timber.i("Logged Out")
             credentialsManager.clearCredentials() // no longer valid
 
-            activity.run {
+            with(activity) {
                 runOnUiThread {
                     // this will see that we have new credentials and go to the correct location
                     val intent = Intent(this, DispatchActivity::class.java)
@@ -138,6 +141,51 @@ object LoginService {
         }
 
     })
+
+    fun getCredentials(activity: Activity) {
+        credentialsManager.getCredentials(object :
+            BaseCallback<Credentials, CredentialsManagerException> {
+            /**
+             * Method called on Auth0 API request failure
+             *
+             * @param error The reason of the failure
+             */
+            override fun onFailure(error: CredentialsManagerException) {
+                Timber.w(error)
+                // we have credentials but we failed to read them?
+                with(activity) {
+                    runOnUiThread {
+                        Toast.makeText(
+                            this,
+                            error.localizedMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        val intent = Intent(activity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+
+            /**
+             * Method called on success with the payload or null.
+             *
+             * @param payload Request payload or null
+             */
+            override fun onSuccess(payload: Credentials?) {
+                Timber.d(payload?.accessToken.toString())
+                EspressoService.credentials = payload // place this in a user class
+                with(activity) {
+                    val intent = Intent(activity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+            }
+
+        })
+    }
 }
 
 

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.*
 @DisplayName("Given Espresso API")
 class EspressoAPIUnitTest {
 
-
     val restaurantListJSON = """
     {
       "restaurants": [
@@ -71,6 +70,19 @@ class EspressoAPIUnitTest {
         }
     """.trimIndent()
 
+    val createdRestaurantJSON = """
+        {
+          "name": "Kraving Kebab Pizza",
+          "street": "999 Hackensack St",
+          "city": "Wood-Ridge",
+          "state": "NJ",
+          "phone_num": "201-555-7777",
+          "website": "www.chinois-nj.com",
+          "email": "chinois-nj@gmail.com",
+          "creator": "barista-test-user@outlook.com"
+        }
+    """.trimIndent()
+
     val moshi = Moshi.Builder()
         .addLast(KotlinJsonAdapterFactory())
         .build()
@@ -119,4 +131,25 @@ class EspressoAPIUnitTest {
 
         }
     }
+
+    @DisplayName("When Creating a restaurant")
+    @Nested
+    inner class WhenCreatingRestaurant {
+        private val espressoPacketAdapter = moshi.adapter(Restaurant::class.java)
+        
+
+        @BeforeEach
+        fun whenCondition() {
+
+        }
+
+        @Test
+        @DisplayName("Then should get a single restaurant")
+        fun thenCondition() {
+            val restaurant = espressoPacketAdapter.fromJson(createdRestaurantJSON)
+            assertThat("Reads a Restaurant", restaurant, isA(Restaurant::class.java))
+        }
+
+    }
+
 }

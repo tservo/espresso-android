@@ -8,9 +8,13 @@ import com.auth0.android.result.Credentials
 import com.routinew.espresso.R
 import com.routinew.espresso.data.json.EspressoRestaurantListPacket
 import com.routinew.espresso.data.json.EspressoRestaurantPacket
+import com.routinew.espresso.data.json.ResultPacket
+import com.routinew.espresso.objects.Restaurant
 import okhttp3.Interceptor
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
@@ -18,17 +22,17 @@ import java.util.concurrent.atomic.AtomicBoolean
 interface EspressoInterface {
     @GET("restaurants")
     fun getRestaurantList(
-//        @Header("Authorization") authorization : String?
     ) : Call<EspressoRestaurantListPacket>
 
     @GET("restaurants/{id}")
     fun getRestaurant(
-//        @Header("Authorization") authorization: String?,
         @Path("id") restaurantId: Int
     ): Call<EspressoRestaurantPacket>
 
-//    @POST("restaurants/create")
-//    fun createRestaurant = TODO()
+    @POST("restaurants/create")
+     fun createRestaurant(
+        @Body restaurant: Restaurant
+     ) : Call<ResultPacket>
 
 //    @PUT("restaurants/{id}")
 //    fun updateRestaurant(@Path("id") restaurantId: Int)

@@ -13,35 +13,17 @@ import com.routinew.espresso.ui.restaurant.RestaurantDetailActivity
 import com.routinew.espresso.ui.restaurant.RestaurantDetailFragment
 
 class RestaurantListAdapter(
-    private val parentActivity: FragmentActivity,
     private var restaurants: List<Restaurant>,
-    private val twoPane: Boolean
-) :
+    private val onClickListener: View.OnClickListener,
+
+    ) :
 RecyclerView.Adapter<RestaurantListAdapter.VH>() {
     inner class VH(val restaurantBinding: RestaurantListContentBinding):
         RecyclerView.ViewHolder(restaurantBinding.root) {
         val card = restaurantBinding.root
     }
 
-    private val onClickListener: View.OnClickListener
 
-    init {
-        onClickListener = View.OnClickListener { v ->
-            val restaurantId = v.tag as Int
-            if (twoPane) {
-                val fragment = RestaurantDetailFragment.newInstance(restaurantId)
-                parentActivity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.restaurant_detail_container, fragment)
-                    .commitNow()
-            } else {
-                val intent = Intent(v.context, RestaurantDetailActivity::class.java).apply {
-                    putExtra(RestaurantDetailFragment.ARG_RESTAURANT_ID, restaurantId)
-                }
-                v.context.startActivity(intent)
-            }
-        }
-    }
 
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
