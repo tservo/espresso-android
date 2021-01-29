@@ -5,8 +5,7 @@
 ]>
 <resources>
     <string name="app_name">Espresso</string>
-    <string name="create_restaurant">Create Restaurant</string>
-    <string name="restaurants">Restaurants</string>
+
     <string name="loading">Loading…</string>
     <string name="restaurant_details">Details</string>
 
@@ -14,13 +13,35 @@
     <string name="ESPRESSO_DEV_SERVER">http://&defaultip;:&defaultport;</string>
     <string name="ESPRESSO_API_BASE">api/v2/</string>
 
-    <string name="login">Log in</string>
-    <string name="logout">Log out</string>
+    <!-- Restaurant Values -->
+    <string name="restaurants">Restaurants</string> <!-- pluralize this? -->
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_restaurant">Create Restaurant</string>
+    <string name="create_restaurant_name">Name</string>
+    <string name="create_restaurant_date_established">Date Established</string>
+    <string name="create_restaurant_street">Address</string>
+    <string name="create_restaurant_suite">Suite</string>
+    <string name="create_restaurant_city">City</string>
+    <string name="create_restaurant_state">State</string>
+    <string name="create_restaurant_zip">Zip</string>
+    <string name="create_restaurant_website">Web site</string>
+    <string name="create_restaurant_phone">Phone</string>
+    
     <string name="title_restaurant_list">Restaurants</string>
     <string name="title_restaurant_detail">Restaurant Detail</string>
+
+    <!-- Development Server Prefs -->
+    <string name="debug">Debug</string>
+    <string name="default_espresso_server">Using default server http://&defaultip;:&defaultport;</string>
+    <string name="custom_espresso_server_location_title">Use custom espresso server location</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="custom_espresso_server">Using custom server</string>
+    <string name="custom_espresso_server_location">Server Location</string>
+    <string name="settings">Settings</string>
+
+    <!-- Login Related -->
+    <string name="login">Log in</string>
+    <string name="logout">Log out</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -34,21 +55,16 @@
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
 
+
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
     <string name="reply_title">Default reply action</string>
 
-    <!-- Sync Preferences -->
+    <!-- Sync Preferences - Clean up as necessary -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="debug">Debug</string>
-    <string name="default_espresso_server">Using default server http://&defaultip;:&defaultport;</string>
-    <string name="custom_espresso_server_location_title">Use custom espresso server location</string>
-    <string name="title_activity_settings">SettingsActivity</string>
-    <string name="custom_espresso_server">Using custom server</string>
-    <string name="custom_espresso_server_location">Server Location</string>
-    <string name="settings">Settings</string>
+
 </resources>

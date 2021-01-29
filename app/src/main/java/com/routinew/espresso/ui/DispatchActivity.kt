@@ -16,7 +16,7 @@ class DispatchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // this will handle dispatching to either main or login activities
         LoginService.getCredentials(this)
-
     }
 }
