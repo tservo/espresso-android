@@ -2,6 +2,27 @@
     <!-- Base application theme. -->
     <style name="Theme.App" parent="Theme.MaterialComponents.DayNight">
         <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="floatingActionButtonStyle">@style/Widget.App.FloatingActionButton</item>
     </style>
 
+
+
+    <style name="Widget.App.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="materialThemeOverlay">@style/myCustomThemeForNormalFab</item>
+    </style>
+
+    <style name="myCustomThemeForNormalFab" parent="">
+
+        <!--for the extended FAB the cornerFamily is given the value as the cut-->
+        <item name="colorSecondary">@color/fab</item>
+
+        <!--this attribute gives makes the change in the text and icon color of the FAB-->
+        <item name="colorOnSecondary">@color/colorPrimaryDark</item>
+
+    </style>
+    <!--Changing the theme of the normal FAB completes here-->
 </resources>
+
