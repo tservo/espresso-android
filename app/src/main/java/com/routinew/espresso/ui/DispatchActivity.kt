@@ -16,15 +16,7 @@ class DispatchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val credentialsManager = LoginService.credentialsManager
-        if (credentialsManager.hasValidCredentials()) {
-             LoginService.getCredentials(this)
-            // try to get to the main activity
-        }
-        else {
-            intent = Intent(this,LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+        LoginService.getCredentials(this)
+
     }
 }
