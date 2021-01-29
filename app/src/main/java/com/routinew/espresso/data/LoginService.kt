@@ -35,12 +35,12 @@ object LoginService {
 
     // webauthprovider builder.
     private fun LoginBuilder() = WebAuthProvider.login(auth0).run {
-            withScheme(SCHEME)
-            withAudience(context.getString(R.string.com_auth0_audience))
-            withScope("openid offline_access read:restaurants")
+        withScheme(SCHEME)
+        withAudience(context.getString(R.string.com_auth0_audience))
+        withScope("openid offline_access read:restaurants")
     }
 
-    private fun LogoutBuilder() =  WebAuthProvider.logout(auth0).run {
+    private fun LogoutBuilder() = WebAuthProvider.logout(auth0).run {
         withScheme(SCHEME)
     }
 
@@ -51,7 +51,8 @@ object LoginService {
             isLoggingEnabled = true
         }
 
-        credentialsManager = SecureCredentialsManager(this.context,
+        credentialsManager = SecureCredentialsManager(
+            this.context,
             AuthenticationAPIClient(auth0),
             SharedPreferencesStorage(this.context)
         )
@@ -60,54 +61,54 @@ object LoginService {
     /**
      *  Tries to log in.  Uses the activity specified (Usually LoginActivity)
      */
-    fun login(activity: Activity) = LoginBuilder().start(activity,object : AuthCallback {
-            /**
-             * Called when the failure reason is displayed in a [android.app.Dialog].
-             *
-             * @param dialog error dialog
-             */
-            override fun onFailure(dialog: Dialog) {
-                activity.runOnUiThread { dialog.show() }
-            }
+    fun login(activity: Activity) = LoginBuilder().start(activity, object : AuthCallback {
+        /**
+         * Called when the failure reason is displayed in a [android.app.Dialog].
+         *
+         * @param dialog error dialog
+         */
+        override fun onFailure(dialog: Dialog) {
+            activity.runOnUiThread { dialog.show() }
+        }
 
-            /**
-             * Called with an AuthenticationException that describes the error.
-             *
-             * @param exception cause of the error
-             */
-            override fun onFailure(exception: AuthenticationException) {
-                Timber.w(exception)
-                Timber.w(exception.description)
-                activity.run {
-                    runOnUiThread {
-                        Toast.makeText(
-                            this,
-                            "Error: " + exception.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+        /**
+         * Called with an AuthenticationException that describes the error.
+         *
+         * @param exception cause of the error
+         */
+        override fun onFailure(exception: AuthenticationException) {
+            Timber.w(exception)
+            Timber.w(exception.description)
+            activity.run {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Error: " + exception.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        }
 
-            /**
-             * Called when the authentication is successful using web authentication against Auth0
-             *
-             * @param credentials Auth0 credentials information (id_token, refresh_token, etc).
-             */
-            override fun onSuccess(credentials: Credentials) {
-                Timber.i(credentials.toString())
-                credentialsManager.saveCredentials(credentials)
+        /**
+         * Called when the authentication is successful using web authentication against Auth0
+         *
+         * @param credentials Auth0 credentials information (id_token, refresh_token, etc).
+         */
+        override fun onSuccess(credentials: Credentials) {
+            Timber.i(credentials.toString())
+            credentialsManager.saveCredentials(credentials)
 
-                activity.run {
-                    runOnUiThread {
-                        // this will see that we have new credentials and go to the correct location
-                        val intent = Intent(this, DispatchActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
+            with(activity) {
+                runOnUiThread {
+                    // this will see that we have new credentials and go to the correct location
+                    val intent = Intent(this, DispatchActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 }
             }
-        })
+        }
+    })
 
     fun logout(activity: Activity) = LogoutBuilder().start(activity, object : VoidCallback {
         /**
@@ -139,53 +140,49 @@ object LoginService {
                 }
             }
         }
-
     })
 
-    fun getCredentials(activity: Activity) {
-        credentialsManager.getCredentials(object :
-            BaseCallback<Credentials, CredentialsManagerException> {
-            /**
-             * Method called on Auth0 API request failure
-             *
-             * @param error The reason of the failure
-             */
-            override fun onFailure(error: CredentialsManagerException) {
-                Timber.w(error)
-                // we have credentials but we failed to read them?
-                with(activity) {
-                    runOnUiThread {
-                        Toast.makeText(
-                            this,
-                            error.localizedMessage,
-                            Toast.LENGTH_SHORT
-                        ).show()
+    fun getCredentials(activity: Activity) = credentialsManager.getCredentials(object :
+        BaseCallback<Credentials, CredentialsManagerException> {
+        /**
+         * Method called on Auth0 API request failure
+         *
+         * @param error The reason of the failure
+         */
+        override fun onFailure(error: CredentialsManagerException) {
+            Timber.w(error)
+            // we have credentials but we failed to read them?
+            with(activity) {
+                runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        error.localizedMessage,
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-                        val intent = Intent(activity, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }
-            }
-
-            /**
-             * Method called on success with the payload or null.
-             *
-             * @param payload Request payload or null
-             */
-            override fun onSuccess(payload: Credentials?) {
-                Timber.d(payload?.accessToken.toString())
-                EspressoService.credentials = payload // place this in a user class
-                with(activity) {
-                    val intent = Intent(activity, MainActivity::class.java)
+                    val intent = Intent(activity, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
-
             }
+        }
 
-        })
-    }
+        /**
+         * Method called on success with the payload or null.
+         *
+         * @param payload Request payload or null
+         */
+        override fun onSuccess(payload: Credentials?) {
+            Timber.d(payload?.accessToken.toString())
+            EspressoService.credentials = payload // place this in a user class
+            with(activity) {
+                val intent = Intent(activity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
+    })
 }
 
 

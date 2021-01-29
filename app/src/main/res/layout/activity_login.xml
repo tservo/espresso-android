@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.login.LoginActivity">
@@ -24,11 +25,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/activity_general_margin"
+        android:backgroundTint="@color/espresso_button_background"
         android:onClick="login"
-        android:backgroundTint="#32002c"
         android:padding="@dimen/activity_general_margin"
         android:text="@string/login"
-        android:textColor="@color/design_default_color_on_primary" />
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/settingsButton"
@@ -36,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/activity_general_margin"
-        android:backgroundTint="#32002c"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:onClick="settings"
         android:padding="@dimen/activity_general_margin"
         android:text="@string/settings"
