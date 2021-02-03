@@ -4,7 +4,5 @@
     <color name="colorPrimaryDark">#281E04</color>
     <color name="colorAccent">#B27D44</color>
     <color name="fab">#C7C490</color>
-    <color name="blue_text">#171F4B</color>
-    <color name="espresso_button_foreground">#352B18</color>
     <color name="espresso_button_background">#281E04</color>
 </resources>

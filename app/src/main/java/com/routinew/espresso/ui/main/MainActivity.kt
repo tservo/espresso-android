@@ -1,4 +1,4 @@
-package com.routinew.espresso.ui
+package com.routinew.espresso.ui.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.PopupWindow
 import androidx.activity.viewModels
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.storage.SecureCredentialsManager
 import com.auth0.android.authentication.storage.SharedPreferencesStorage
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.routinew.espresso.R
 import com.routinew.espresso.data.LoginService
@@ -18,6 +20,8 @@ import com.routinew.espresso.databinding.MainActivityBinding
 import com.routinew.espresso.ui.login.LoginActivity
 import com.routinew.espresso.ui.main.MainFragment
 import com.routinew.espresso.ui.main.MainViewModel
+import com.routinew.espresso.ui.restaurant.RestaurantDetailActivity
+import com.routinew.espresso.ui.restaurant.RestaurantDetailFragment
 import com.routinew.espresso.ui.restaurant.RestaurantDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     val model: MainViewModel by viewModels()
-    val selectedModel: RestaurantDetailViewModel by viewModels()
+    val selectedModel: RestaurantDetailViewModel by viewModels() // this will handle the restaurant in focus
+
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -33,7 +38,8 @@ class MainActivity : AppCompatActivity() {
      */
     private var twoPane: Boolean = false
 
-    private lateinit var binding: MainActivityBinding
+    lateinit var binding: MainActivityBinding
+    lateinit var fab: FloatingActionButton // set from MainFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,14 +51,15 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
 
-        binding.fab.setOnClickListener { view ->
+        fab = binding.fab
+
+        // val popupLayout = layoutInflater.inflate(R.layout.popup_restaurant_create, null)
+        // val popupWindow = PopupWindow(popupLayout)
+        fab.setOnClickListener { view ->
             model.createRestaurant()
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-
-
-
         if (binding.restaurantDetailContainer != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -62,9 +69,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.restaurant_list_container, MainFragment.newInstance(twoPane))
-                    .commitNow()
+            supportFragmentManager.beginTransaction().run {
+                replace(R.id.restaurant_list_container, MainFragment.newInstance(twoPane))
+                commitNow()
+            }
         }
     }
 
@@ -81,6 +89,29 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun show(restaurantId: Int) {
+        if (twoPane) {
+            // let's stop creating new fragments willy-nilly
+            val fragment = RestaurantDetailFragment.newInstance(restaurantId)
+            supportFragmentManager.beginTransaction().run {
+                replace(R.id.restaurant_detail_container, fragment)
+                commitNow()
+            }
+        }
+        else {
+            navigateToRestaurantDetail(restaurantId)
+        }
+    }
+
+    fun navigateToRestaurantDetail(restaurantId: Int) {
+        val fragment = RestaurantDetailFragment.newInstance(restaurantId)
+        supportFragmentManager.beginTransaction().run {
+            addToBackStack(RestaurantDetailFragment.TAG)
+            replace(R.id.restaurant_list_container, fragment)
+            commitNow()
         }
     }
 

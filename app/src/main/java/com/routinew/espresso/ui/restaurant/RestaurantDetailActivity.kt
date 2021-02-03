@@ -6,7 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import androidx.activity.viewModels
-import com.routinew.espresso.ui.MainActivity
+import com.routinew.espresso.ui.main.MainActivity
 import com.routinew.espresso.R
 import com.routinew.espresso.databinding.ActivityRestaurantDetailBinding
 
@@ -18,7 +18,7 @@ import com.routinew.espresso.databinding.ActivityRestaurantDetailBinding
  */
 class RestaurantDetailActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRestaurantDetailBinding
+    lateinit var binding: ActivityRestaurantDetailBinding
 
     val selectedModel: RestaurantDetailViewModel by viewModels()
 

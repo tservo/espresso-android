@@ -1,18 +1,13 @@
 package com.routinew.espresso.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.routinew.espresso.R
-import com.routinew.espresso.databinding.MainFragmentBinding
-import com.routinew.espresso.ui.restaurant.RestaurantDetailActivity
-import com.routinew.espresso.ui.restaurant.RestaurantDetailFragment
+import com.routinew.espresso.databinding.FragmentMainBinding
 import com.routinew.espresso.ui.restaurant.RestaurantDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,7 +36,7 @@ class MainFragment : Fragment() {
      * @var binding
      * View Binding
      */
-    private lateinit var binding: MainFragmentBinding
+    private lateinit var binding: FragmentMainBinding
 
     private lateinit var restaurantAdapter: RestaurantListAdapter
 
@@ -64,48 +59,46 @@ class MainFragment : Fragment() {
             }
         }
         restaurantAdapter = RestaurantListAdapter(listOf()) { v ->
-                val restaurantId = v.tag as Int
-                selectedViewModel.selectedId = restaurantId
+            selectedViewModel.selectedId = v.tag as Int
+            (requireActivity() as MainActivity).show(selectedViewModel.selectedId)
 
-                if (twoPane) {
-                    // let's stop creating new fragments willy-nilly
-                    val fragment = RestaurantDetailFragment.newInstance(restaurantId)
-                    requireActivity().supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.restaurant_detail_container, fragment)
-                        .commitNow()
-                } else {
-                    val intent = Intent(v.context, RestaurantDetailActivity::class.java).apply {
-                        putExtra(RestaurantDetailFragment.ARG_RESTAURANT_ID, restaurantId)
-                    }
-                    v.context.startActivity(intent)
-                }
-            }
+
+//            if (twoPane) {
+//                // let's stop creating new fragments willy-nilly
+//                val fragment = RestaurantDetailFragment.newInstance(restaurantId)
+//                requireActivity().supportFragmentManager
+//                    .beginTransaction()
+//                    .replace(R.id.restaurant_detail_container, fragment)
+//                    .commitNow()
+//            } else {
+//                val intent = Intent(v.context, RestaurantDetailActivity::class.java).apply {
+//                    putExtra(RestaurantDetailFragment.ARG_RESTAURANT_ID, restaurantId)
+//                }
+//                v.context.startActivity(intent)
+//            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        val restaurantList = binding.restaurantList
-        restaurantList.apply {
-            setHasFixedSize(true)
-
-            layoutManager = LinearLayoutManager(view.context)
-
-            adapter = restaurantAdapter
-        }
-
-        binding.loading.visibility = View.GONE 
-        binding.restaurantList.visibility = View.VISIBLE
-        return view
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
             restaurantAdapter.setData(restaurants)
+        }
+
+        with(binding) {
+            restaurantList.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(root.context)
+                adapter = restaurantAdapter
+                visibility = View.VISIBLE
+            }
+            loading.visibility = View.GONE
         }
     }
 }

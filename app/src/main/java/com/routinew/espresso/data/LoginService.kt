@@ -19,10 +19,9 @@ import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import com.routinew.espresso.R
 import com.routinew.espresso.ui.DispatchActivity
-import com.routinew.espresso.ui.MainActivity
+import com.routinew.espresso.ui.main.MainActivity
 import com.routinew.espresso.ui.login.LoginActivity
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicBoolean
 
 object LoginService {
     const val EXTRA_CLEAR_CREDENTIALS = "com.auth0.CLEAR_CREDENTIALS"
