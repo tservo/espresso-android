@@ -25,7 +25,9 @@ tools:context=".ui.main.MainActivity">
     android:id="@+id/restaurant_list_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:defaultNavHost="true"
+    >
 </androidx.fragment.app.FragmentContainerView>
 
 <com.google.android.material.floatingactionbutton.FloatingActionButton

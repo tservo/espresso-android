@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.routinew.espresso.databinding.FragmentMainBinding
 import com.routinew.espresso.ui.restaurant.RestaurantDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -39,6 +41,7 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
 
     private lateinit var restaurantAdapter: RestaurantListAdapter
+    private lateinit var swipeRefresh: SwipeRefreshLayout
 
     /**
      *  @var twoPane: Boolean
@@ -87,8 +90,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
             restaurantAdapter.setData(restaurants)
+            swipeRefresh.isRefreshing = false
         }
 
         with(binding) {
@@ -99,6 +104,13 @@ class MainFragment : Fragment() {
                 visibility = View.VISIBLE
             }
             loading.visibility = View.GONE
+        }
+
+        swipeRefresh = binding.swiperefresh.apply {
+            setOnRefreshListener {
+                Timber.i("Onrefresh called")
+                viewModel.getRestaurants()
+            }
         }
     }
 }

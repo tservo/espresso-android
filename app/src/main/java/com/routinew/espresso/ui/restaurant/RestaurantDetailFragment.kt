@@ -2,9 +2,7 @@ package com.routinew.espresso.ui.restaurant
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.routinew.espresso.R
@@ -69,6 +67,7 @@ class RestaurantDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRestaurantDetailBinding.inflate(inflater, container, false)
+     //   setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -77,6 +76,10 @@ class RestaurantDetailFragment : Fragment() {
         selectedViewModel.restaurant.observe(viewLifecycleOwner) { restaurant ->
             displayView(restaurant) // update the single restaurant
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun displayView(restaurant: Restaurant?) {

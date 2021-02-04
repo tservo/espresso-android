@@ -106,10 +106,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun navigateToRestaurantDetail(restaurantId: Int) {
+    private fun navigateToRestaurantDetail(restaurantId: Int) {
         val fragment = RestaurantDetailFragment.newInstance(restaurantId)
         supportFragmentManager.beginTransaction().run {
-            addToBackStack(RestaurantDetailFragment.TAG)
+            setReorderingAllowed(true)
+            addToBackStack(null)
             replace(R.id.restaurant_list_container, fragment)
             commitNow()
         }
