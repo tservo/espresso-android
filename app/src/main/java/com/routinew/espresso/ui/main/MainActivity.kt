@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.PopupWindow
 import androidx.activity.viewModels
+import androidx.fragment.app.commit
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.storage.SecureCredentialsManager
@@ -49,17 +50,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         toolbar.title = title
         setSupportActionBar(toolbar)
-
-
-        fab = binding.fab
-
-        // val popupLayout = layoutInflater.inflate(R.layout.popup_restaurant_create, null)
-        // val popupWindow = PopupWindow(popupLayout)
-        fab.setOnClickListener { view ->
-            model.createRestaurant()
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+        
         if (binding.restaurantDetailContainer != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -88,6 +79,18 @@ class MainActivity : AppCompatActivity() {
                 logout()
                 true
             }
+            android.R.id.home -> {
+                // This ID represents the Home or Up button. In the case of this
+                // activity, the Up button is shown. For
+                // more details, see the Navigation pattern on Android Design:
+                //
+                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
+                supportFragmentManager.popBackStack()
+                if (supportFragmentManager.backStackEntryCount <= 1) {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                }
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -96,9 +99,8 @@ class MainActivity : AppCompatActivity() {
         if (twoPane) {
             // let's stop creating new fragments willy-nilly
             val fragment = RestaurantDetailFragment.newInstance(restaurantId)
-            supportFragmentManager.beginTransaction().run {
+            supportFragmentManager.commit {
                 replace(R.id.restaurant_detail_container, fragment)
-                commitNow()
             }
         }
         else {
@@ -108,13 +110,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigateToRestaurantDetail(restaurantId: Int) {
         val fragment = RestaurantDetailFragment.newInstance(restaurantId)
-        supportFragmentManager.beginTransaction().run {
+        supportFragmentManager.commit {
             setReorderingAllowed(true)
-            addToBackStack(null)
             replace(R.id.restaurant_list_container, fragment)
-            commitNow()
+            addToBackStack(null)
         }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
+
 
     private fun logout() {
         LoginService.logout(this)

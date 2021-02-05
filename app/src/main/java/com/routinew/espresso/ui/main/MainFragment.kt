@@ -1,5 +1,6 @@
 package com.routinew.espresso.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.snackbar.Snackbar
 import com.routinew.espresso.databinding.FragmentMainBinding
 import com.routinew.espresso.ui.restaurant.RestaurantDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,21 +66,6 @@ class MainFragment : Fragment() {
         restaurantAdapter = RestaurantListAdapter(listOf()) { v ->
             selectedViewModel.selectedId = v.tag as Int
             (requireActivity() as MainActivity).show(selectedViewModel.selectedId)
-
-
-//            if (twoPane) {
-//                // let's stop creating new fragments willy-nilly
-//                val fragment = RestaurantDetailFragment.newInstance(restaurantId)
-//                requireActivity().supportFragmentManager
-//                    .beginTransaction()
-//                    .replace(R.id.restaurant_detail_container, fragment)
-//                    .commitNow()
-//            } else {
-//                val intent = Intent(v.context, RestaurantDetailActivity::class.java).apply {
-//                    putExtra(RestaurantDetailFragment.ARG_RESTAURANT_ID, restaurantId)
-//                }
-//                v.context.startActivity(intent)
-//            }
         }
     }
 
@@ -112,5 +99,16 @@ class MainFragment : Fragment() {
                 viewModel.getRestaurants()
             }
         }
+
+        binding.fab.setOnClickListener { view ->
+            viewModel.createRestaurant()
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+
+        // val popupLayout = layoutInflater.inflate(R.layout.popup_restaurant_create, null)
+        // val popupWindow = PopupWindow(popupLayout)
+
     }
+
 }

@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.routinew.espresso.R
 import com.routinew.espresso.databinding.FragmentRestaurantDetailBinding
@@ -39,7 +40,7 @@ class RestaurantDetailFragment : Fragment() {
 
     }
 
-    private val selectedViewModel: RestaurantDetailViewModel by viewModels()
+    private val selectedViewModel: RestaurantDetailViewModel by activityViewModels()
 
     /**
      * @var binding
@@ -57,7 +58,7 @@ class RestaurantDetailFragment : Fragment() {
                 // Load the dummy content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader (or ViewModel!)
                 // to load content from a content provider.
-                // viewModel.getRestaurant(getInt(ARG_RESTAURANT_ID))
+                selectedViewModel.selectedId = (getInt(ARG_RESTAURANT_ID))
             }
         }
     }

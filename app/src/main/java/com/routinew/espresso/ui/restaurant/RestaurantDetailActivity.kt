@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.fragment.app.commit
 import com.routinew.espresso.ui.main.MainActivity
 import com.routinew.espresso.R
 import com.routinew.espresso.databinding.ActivityRestaurantDetailBinding
@@ -53,9 +54,9 @@ class RestaurantDetailActivity : AppCompatActivity() {
                 intent.getIntExtra(RestaurantDetailFragment.ARG_RESTAURANT_ID,0)
             )
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.restaurant_detail_container, fragment)
-                .commit()
+            supportFragmentManager.commit {
+                add(R.id.restaurant_detail_container, fragment)
+            }
         }
     }
 
