@@ -5,7 +5,7 @@
     android:id="@+id/restaurantDetailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.restaurant.RestaurantDetailActivity">
+    tools:context=".ui.main.MainActivity">
 
     <!-- TODO: Update blank fragment layout -->
 

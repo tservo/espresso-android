@@ -1,6 +1,5 @@
 package com.routinew.espresso.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +64,7 @@ class MainFragment : Fragment() {
         }
         restaurantAdapter = RestaurantListAdapter(listOf()) { v ->
             selectedViewModel.selectedId = v.tag as Int
-            (requireActivity() as MainActivity).show(selectedViewModel.selectedId)
+            (requireActivity() as MainActivity).showDetail(selectedViewModel.selectedId)
         }
     }
 
@@ -101,9 +100,7 @@ class MainFragment : Fragment() {
         }
 
         binding.fab.setOnClickListener { view ->
-            viewModel.createRestaurant()
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            (requireActivity() as MainActivity).showCreate()
         }
 
         // val popupLayout = layoutInflater.inflate(R.layout.popup_restaurant_create, null)

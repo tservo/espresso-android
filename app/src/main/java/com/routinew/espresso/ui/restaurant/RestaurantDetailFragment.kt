@@ -14,8 +14,7 @@ import com.routinew.espresso.ui.main.MainActivity
 /**
  * A fragment representing a single Restaurant detail screen.
  * This fragment is either contained in a [MainActivity]
- * in two-pane mode (on tablets) or a [RestaurantDetailActivity]
- * on handsets.
+ * in two-pane mode (on tablets) or as a fragment navigation on phones
  */
 class RestaurantDetailFragment : Fragment() {
 
@@ -90,9 +89,6 @@ class RestaurantDetailFragment : Fragment() {
         val toolbar = when (activity) {
             is MainActivity -> {
                 activity.binding.toolbar
-            }
-            is RestaurantDetailActivity -> {
-                activity.binding.detailToolbar
             }
             else -> throw ActivityNotFoundException()
         }

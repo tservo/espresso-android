@@ -33,14 +33,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.routinew.espresso.ui.login.LoginActivity" />
         </activity>
-        <activity
-            android:name=".ui.restaurant.RestaurantDetailActivity"
-            android:label="@string/title_restaurant_detail"
-            android:parentActivityName=".ui.main.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.routinew.espresso.ui.main.MainActivity" />
-        </activity>
         <activity android:name=".ui.main.MainActivity" />
     </application>
 
