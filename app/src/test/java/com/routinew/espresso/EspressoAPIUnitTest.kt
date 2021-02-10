@@ -2,7 +2,7 @@ package com.routinew.espresso
 
 import com.routinew.espresso.data.json.EspressoRestaurantPacket
 import com.routinew.espresso.data.json.EspressoRestaurantListPacket
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.model.Restaurant
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import org.hamcrest.MatcherAssert.assertThat

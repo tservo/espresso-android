@@ -4,7 +4,7 @@ package com.routinew.espresso.ui.main
 import androidx.lifecycle.ViewModel
 import com.routinew.espresso.data.EspressoService
 import com.routinew.espresso.data.RestaurantRepository
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.model.Restaurant
 
 
 class MainViewModel : ViewModel() {

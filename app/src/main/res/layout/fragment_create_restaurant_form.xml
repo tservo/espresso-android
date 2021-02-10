@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.routinew.espresso.ui.compose.ComposeRestaurantViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
     android:id="@+id/create_restaurant"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:transitionName="create_restaurant_container"
+    android:fitsSystemWindows="true"
     tools:context=".ui.restaurant.CreateRestaurantFormFragment">
 
     <com.google.android.material.card.MaterialCardView
@@ -38,7 +48,7 @@
                     android:layout_weight="1"
                     android:inputType="text"
                     android:hint="@string/create_restaurant_name"
-
+                    android:text="@={viewmodel.name}"
                     tools:text="Restaurant Name" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,6 +66,7 @@
                     android:inputType="text"
                     android:minEms="10"
                     android:hint="@string/create_restaurant_date_established"
+                    android:text="@={viewmodel.dateest}"
                     tools:text="est. 2019" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,6 +83,7 @@
                     android:layout_weight="1"
                     android:inputType="text"
                     android:hint="@string/create_restaurant_street"
+                    android:text="@={viewmodel.address}"
                     tools:text="1 Post St" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,6 +100,7 @@
                     android:inputType="text"
                     android:layout_weight="1"
                     android:hint="@string/create_restaurant_suite"
+                    android:text="@={viewmodel.suite}"
                     tools:text="500" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,6 +117,7 @@
                     android:layout_weight="1"
                     android:inputType="text"
                     android:hint="@string/create_restaurant_city"
+                    android:text="@={viewmodel.city}"
                     tools:text="San Francisco" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,6 +135,7 @@
                     android:inputType="text"
                     android:minEms="5"
                     android:hint="@string/create_restaurant_state"
+                    android:text="@={viewmodel.state}"
                     tools:text="CA" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -137,6 +152,8 @@
                     android:layout_weight="1"
                     android:minEms="10"
                     android:hint="@string/create_restaurant_zip"
+                    android:inputType="number"
+                    android:text="@={viewmodel.zip}"
                     tools:text="94128" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -153,6 +170,7 @@
                     android:inputType="textUri"
                     android:layout_weight="1"
                     android:hint="@string/create_restaurant_website"
+                    android:text="@={viewmodel.website}"
                     tools:text="http;//www.example.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -170,6 +188,7 @@
                     android:minEms="10"
                     android:layout_weight="1"
                     android:hint="@string/create_restaurant_phone"
+                    android:text="@={viewmodel.phone}"
                     tools:text="(415) 527-3948" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,6 +200,7 @@
 
                 <Button
                     style="?android:attr/buttonBarButtonStyle"
+                    android:id="@+id/cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@android:color/darker_gray"
@@ -189,6 +209,7 @@
 
                 <Button
                     style="?android:attr/buttonBarButtonStyle"
+                    android:id="@+id/create"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/fab"
@@ -198,4 +219,5 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-</FrameLayout>
+</androidx.core.widget.NestedScrollView>
+</layout>

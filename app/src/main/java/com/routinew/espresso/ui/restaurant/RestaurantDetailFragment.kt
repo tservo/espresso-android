@@ -1,14 +1,11 @@
 package com.routinew.espresso.ui.restaurant
 
-import android.content.ActivityNotFoundException
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.routinew.espresso.R
 import com.routinew.espresso.databinding.FragmentRestaurantDetailBinding
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.model.Restaurant
 import com.routinew.espresso.ui.main.MainActivity
 
 /**
@@ -29,15 +26,18 @@ class RestaurantDetailFragment : Fragment() {
          * represents.
          */
         const val ARG_RESTAURANT_ID = "restaurant_id"
-        fun newInstance(restaurantId: Int): RestaurantDetailFragment {
+        const val ARG_TWOPANE = "twopane"
+        fun newInstance(twoPane: Boolean): RestaurantDetailFragment {
             return RestaurantDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_RESTAURANT_ID, restaurantId)
+                    putBoolean(ARG_TWOPANE, twoPane)
                 }
             }
         }
 
     }
+
+    private var twoPane = false
 
     private val selectedViewModel: RestaurantDetailViewModel by activityViewModels()
 
@@ -52,12 +52,8 @@ class RestaurantDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.run {
-            if (containsKey(ARG_RESTAURANT_ID)) {
-                // this isn't necessary - we have activity scoped viewmodel
-                // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader (or ViewModel!)
-                // to load content from a content provider.
-                selectedViewModel.selectedId = (getInt(ARG_RESTAURANT_ID))
+            if (containsKey(ARG_TWOPANE)) {
+                twoPane = getBoolean(ARG_TWOPANE)
             }
         }
     }
@@ -77,24 +73,14 @@ class RestaurantDetailFragment : Fragment() {
             displayView(restaurant) // update the single restaurant
         }
     }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun displayView(restaurant: Restaurant?) {
         // update the parent activity layout
-        val activity = requireActivity()
-        // this is wrong
-        val toolbar = when (activity) {
-            is MainActivity -> {
-                activity.binding.toolbar
-            }
-            else -> throw ActivityNotFoundException()
+        if (twoPane) {
+            (requireActivity() as MainActivity).toolbarTitle = restaurant?.name ?: "Name Unknown"
         }
-
-        toolbar.title =
-            restaurant?.name ?: getString(R.string.RESTAURANT_NAME_UNKNOWN)
-
     }
 }

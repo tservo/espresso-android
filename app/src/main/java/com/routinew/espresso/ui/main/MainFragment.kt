@@ -108,4 +108,9 @@ class MainFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).toolbarTitle = "Espresso"
+    }
+
 }

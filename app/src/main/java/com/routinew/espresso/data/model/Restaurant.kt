@@ -1,4 +1,4 @@
-package com.routinew.espresso.objects
+package com.routinew.espresso.data.model
 
 import com.squareup.moshi.JsonClass
 

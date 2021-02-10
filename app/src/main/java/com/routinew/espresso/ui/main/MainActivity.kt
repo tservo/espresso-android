@@ -23,7 +23,13 @@ class MainActivity : AppCompatActivity() {
     val model: MainViewModel by viewModels()
     val selectedModel: RestaurantDetailViewModel by viewModels() // this will handle the restaurant in focus
 
-
+    var toolbarTitle: CharSequence
+            get() {
+                return binding.toolbar.title
+            }
+            set(value: CharSequence) {
+                binding.toolbar.title = value
+            }
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -89,18 +95,18 @@ class MainActivity : AppCompatActivity() {
     fun showDetail(restaurantId: Int) {
         if (twoPane) {
             // let's stop creating new fragments willy-nilly
-            val fragment = RestaurantDetailFragment.newInstance(restaurantId)
+            val fragment = RestaurantDetailFragment.newInstance(twoPane)
             supportFragmentManager.commit {
                 replace(R.id.restaurant_detail_container, fragment)
             }
         }
         else {
-            navigateToRestaurantDetail(restaurantId)
+            navigateToRestaurantDetail()
         }
     }
 
     fun showCreate() {
-        val fragment = CreateRestaurantFormFragment.newInstance()
+        val fragment = CreateRestaurantFormFragment.newInstance(twoPane)
         if (twoPane) {
             // let's stop creating new fragments willy-nilly
             supportFragmentManager.commit {
@@ -112,6 +118,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     private fun navigate(container: Int, fragment: Fragment) {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -121,10 +129,10 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun navigateToRestaurantDetail(restaurantId: Int) {
+    private fun navigateToRestaurantDetail() {
         navigate(
             R.id.restaurant_list_container,
-            RestaurantDetailFragment.newInstance(restaurantId)
+            RestaurantDetailFragment.newInstance(twoPane)
         )
     }
 

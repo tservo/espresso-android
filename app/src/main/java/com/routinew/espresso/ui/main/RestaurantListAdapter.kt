@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.routinew.espresso.databinding.RestaurantListContentBinding
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.model.Restaurant
 
 class RestaurantListAdapter(
     private var restaurants: List<Restaurant>,
