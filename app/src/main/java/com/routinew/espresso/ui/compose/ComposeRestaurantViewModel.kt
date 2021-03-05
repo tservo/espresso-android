@@ -42,6 +42,7 @@ class ComposeRestaurantViewModel: ViewModel() {
         val name = this.name.value!!
         val restaurant = Restaurant(
             name,
+            "test@test",
             null,
             dateest.value,
             "test@test", // pull this from user credentials

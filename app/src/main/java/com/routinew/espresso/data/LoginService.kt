@@ -36,7 +36,7 @@ object LoginService {
     private fun LoginBuilder() = WebAuthProvider.login(auth0).run {
         withScheme(SCHEME)
         withAudience(context.getString(R.string.com_auth0_audience))
-        withScope("openid offline_access read:restaurants")
+        withScope("openid offline_access read:restaurants create:restaurants")
     }
 
     private fun LogoutBuilder() = WebAuthProvider.logout(auth0).run {

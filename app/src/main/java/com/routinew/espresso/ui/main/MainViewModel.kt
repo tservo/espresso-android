@@ -22,7 +22,6 @@ class MainViewModel : ViewModel() {
     fun createRestaurant() {
         // take data and make restaurant
         // tell the repository
-        val restaurant = Restaurant("The test place")
-        repository.createRestaurant(restaurant)
+       // repository.createRestaurant(restaurant)
     }
 }
