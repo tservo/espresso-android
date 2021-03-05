@@ -9,7 +9,7 @@ import com.routinew.espresso.R
 import com.routinew.espresso.data.json.EspressoRestaurantListPacket
 import com.routinew.espresso.data.json.EspressoRestaurantPacket
 import com.routinew.espresso.data.json.ResultPacket
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.model.Restaurant
 import okhttp3.Interceptor
 import retrofit2.Call
 import retrofit2.http.Body

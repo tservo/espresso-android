@@ -1,6 +1,6 @@
 package com.routinew.espresso.data.json
 
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.model.Restaurant
 import com.squareup.moshi.JsonClass
 
 

@@ -5,12 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.routinew.espresso.data.json.EspressoRestaurantPacket
 import com.routinew.espresso.data.json.EspressoRestaurantListPacket
 import com.routinew.espresso.data.json.ResultPacket
-import com.routinew.espresso.objects.Restaurant
+import com.routinew.espresso.data.model.Restaurant
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import javax.inject.Inject
 
 class RestaurantRepository /* @Inject */ constructor(
         private val espressoService: EspressoInterface

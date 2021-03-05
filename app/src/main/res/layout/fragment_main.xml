@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/mainFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionName="create_restaurant_container"
     tools:context=".ui.main.MainFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -12,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".6" />
+        app:layout_constraintGuide_percent="0.8" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -32,19 +33,34 @@
             android:text="@string/loading"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:visibility="visible"
-            tools:visibility="invisible"/>
+            tools:visibility="invisible" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/restaurant_list"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible"
-            tools:visibility="visible"
-            tools:context=".ui.MainActivity"
-            tools:listitem="@layout/restaurant_list_content"/>
+            android:layout_height="match_parent">
 
-       
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/restaurant_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                tools:context=".ui.main.MainActivity"
+                tools:listitem="@layout/restaurant_list_content"
+                tools:visibility="visible" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </FrameLayout>
 
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:contentDescription="@string/create_restaurant"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@android:drawable/ic_input_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>

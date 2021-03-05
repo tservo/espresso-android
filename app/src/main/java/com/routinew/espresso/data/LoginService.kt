@@ -19,10 +19,9 @@ import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import com.routinew.espresso.R
 import com.routinew.espresso.ui.DispatchActivity
-import com.routinew.espresso.ui.MainActivity
+import com.routinew.espresso.ui.main.MainActivity
 import com.routinew.espresso.ui.login.LoginActivity
 import timber.log.Timber
-import java.util.concurrent.atomic.AtomicBoolean
 
 object LoginService {
     const val EXTRA_CLEAR_CREDENTIALS = "com.auth0.CLEAR_CREDENTIALS"
@@ -37,7 +36,7 @@ object LoginService {
     private fun LoginBuilder() = WebAuthProvider.login(auth0).run {
         withScheme(SCHEME)
         withAudience(context.getString(R.string.com_auth0_audience))
-        withScope("openid offline_access read:restaurants")
+        withScope("openid offline_access read:restaurants create:restaurants")
     }
 
     private fun LogoutBuilder() = WebAuthProvider.logout(auth0).run {

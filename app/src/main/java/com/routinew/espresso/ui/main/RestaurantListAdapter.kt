@@ -1,16 +1,11 @@
 package com.routinew.espresso.ui.main
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.routinew.espresso.R
 import com.routinew.espresso.databinding.RestaurantListContentBinding
-import com.routinew.espresso.objects.Restaurant
-import com.routinew.espresso.ui.restaurant.RestaurantDetailActivity
-import com.routinew.espresso.ui.restaurant.RestaurantDetailFragment
+import com.routinew.espresso.data.model.Restaurant
 
 class RestaurantListAdapter(
     private var restaurants: List<Restaurant>,
